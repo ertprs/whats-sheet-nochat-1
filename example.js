@@ -1,5 +1,5 @@
 const { Client } = require('whatsapp-web.js');
-const client = new Client();
+const client = new Client({ puppeteer : { args: ['--no-sandbox'] } });
 
 client.on('qr', (qr) => {
     // Generate and scan this code with your phone
