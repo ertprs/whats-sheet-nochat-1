@@ -20,9 +20,13 @@ var listener = app.listen(process.env.PORT, function () {
     console.log('Your app is listening on port ' + listener.address().port);
 });
 
-app.get('/qr', async (request, response) => {
+app.get('/', async(req, res) => {
+    res.send('Running');
+});
+
+app.get('/qr', async (req, res) => {
     try {
-        response.sendFile(__dirname+'/public/qr.png');
+        res.sendFile(__dirname+'/public/qr.png');
     } catch (error) {
         console.log(error);
     }
@@ -36,6 +40,20 @@ app.get('/info', (req, res) => {
     else
     {
         res.send('No Client Connected');
+    }
+});
+
+app.get('/chat/:id', async(req, res) => {
+    try {
+        let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
+        const chat = await client.getChatById(number);
+        if (req.query['load'] == 'true')
+            await chat.loadMessages();
+        res.send(chat);
+    }
+    catch(e) {
+        res.status(500).send('Get Chat by Id Error');
+        throw new Error(req.url);
     }
 });
 
