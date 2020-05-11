@@ -16,8 +16,6 @@ client.on('ready', () => {
 
 client.initialize();
 
-
-
 var listener = app.listen(process.env.PORT, function () {
     console.log('Your app is listening on port ' + listener.address().port);
 });
@@ -29,3 +27,15 @@ app.get('/qr', async (request, response) => {
         console.log(error);
     }
 });
+
+app.get('/info', (req, res) => {
+    if (client) {
+        let info = client.info;
+        res.send(client.info);
+    }
+    else
+    {
+        res.send('No Client Connected');
+    }
+});
+
