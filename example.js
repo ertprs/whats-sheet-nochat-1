@@ -48,7 +48,7 @@ app.get('/chat/:id', async(req, res) => {
         let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
         const chat = await client.getChatById(number);
         if (req.query['load'] == 'true')
-            await chat.loadMessages();
+            await chat.fetchMessages();
         res.send(chat);
     }
     catch(e) {
