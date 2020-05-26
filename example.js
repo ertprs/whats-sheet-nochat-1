@@ -63,9 +63,10 @@ app.get('/query/:q', async(req, res) => {
         const reqUrl = url.parse(url.format({
             protocol: 'http',
             hostname: 'api.wolframalpha.com',
-            pathname: '/v1/result?appid=TP5E7U-K9KXY8G2UV&i',
+            pathname: '/v1/result',
             query: {
-                key: req.params.q
+                appid: 'TP5E7U-K9KXY8G2UV',
+                i: req.params.q
             }
         }));
         const options = {
@@ -75,12 +76,18 @@ app.get('/query/:q', async(req, res) => {
             method: 'GET'
         };
         
-
+        console.log(reqUrl.path);
         const hreq = http.request(options, result => {
-            console.log(`statusCode: ${result.statusCode}`);
+            let data = '';
+          
+            // A chunk of data has been recieved.
+            result.on('data', (chunk) => {
+                data += chunk;
+            });
 
-            result.on('data', d => {
-                res.send(d);
+            // The whole response has been received. Print out the result.
+            result.on('end', () => {
+                res.send(data);
             });
         });
 
