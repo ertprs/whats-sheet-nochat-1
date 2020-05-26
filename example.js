@@ -2,7 +2,7 @@ const { Client } = require('whatsapp-web.js');
 const client = new Client({ puppeteer : { args: ['--no-sandbox'] } });
 const express = require('express');
 const app = express();
-
+const http = require('http');
 
 client.on('qr', (qr) => {
     // Generate and scan this code with your phone
@@ -57,3 +57,26 @@ app.get('/chat/:id', async(req, res) => {
     }
 });
 
+app.get('/query/:q', async(req, res) => {
+    const options = {
+        hostname: 'http://api.wolframalpha.com/v1/result?appid=TP5E7U-K9KXY8G2UV&i',
+        port: 443,
+        path: '/todos',
+        method: 'GET'
+    };
+
+    const hreq = https.request(options, res => {
+        console.log(`statusCode: ${res.statusCode}`);
+
+        res.on('data', d => {
+            res.send(d);
+        });
+    });
+
+    hreq.on('error', error => {
+        res.status(500).send(error);
+        console.error(error);
+    });
+
+    hreq.end();
+});
