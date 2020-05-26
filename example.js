@@ -2,7 +2,8 @@ const { Client } = require('whatsapp-web.js');
 const client = new Client({ puppeteer : { args: ['--no-sandbox'] } });
 const express = require('express');
 const app = express();
-const request = require('request');
+const http = require('http');
+const url = require('url');
 
 client.on('qr', (qr) => {
     // Generate and scan this code with your phone
@@ -58,25 +59,39 @@ app.get('/chat/:id', async(req, res) => {
 });
 
 app.get('/query/:q', async(req, res) => {
-    const options = {
-        hostname: 'http://api.wolframalpha.com/v1/result?appid=TP5E7U-K9KXY8G2UV&i',
-        port: 443,
-        path: '/todos',
-        method: 'GET'
-    };
+    try {
+        const reqUrl = url.parse(url.format({
+            protocol: 'http',
+            hostname: 'api.wolframalpha.com',
+            pathname: '/v1/result?appid=TP5E7U-K9KXY8G2UV&i',
+            query: {
+                key: req.params.q
+            }
+        }));
+        const options = {
+            hostname: reqUrl.hostname,
+            port: 80,
+            path: reqUrl.path,
+            method: 'GET'
+        };
+        
 
-    const hreq = https.request(options, res => {
-        console.log(`statusCode: ${res.statusCode}`);
+        const hreq = http.request(options, result => {
+            console.log(`statusCode: ${result.statusCode}`);
 
-        res.on('data', d => {
-            res.send(d);
+            result.on('data', d => {
+                res.send(d);
+            });
         });
-    });
 
-    hreq.on('error', error => {
-        res.status(500).send(error);
-        console.error(error);
-    });
+        hreq.on('error', error => {
+            res.status(500).send(error);
+            console.error(error);
+        });
 
-    hreq.end();
+        hreq.end();
+    }
+    catch(e) {
+        res.status(500).send(e);
+    }
 });
