@@ -21,6 +21,55 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
+client.on('message', msg => {
+  if (msg.body == '!ping') {
+    msg.reply('pong');
+  }
+  else {
+    try {
+      const reqUrl = url.parse(url.format({
+        protocol: 'http',
+        hostname: 'api.wolframalpha.com',
+        pathname: '/v1/result',
+        query: {
+          appid: process.env.WOLFRAM_SECRET,
+          i: msg.body
+        }
+      }));
+      const options = {
+        hostname: reqUrl.hostname,
+        port: 80,
+        path: reqUrl.path,
+        method: 'GET'
+      };
+
+      console.log(reqUrl.path);
+      const hreq = http.request(options, result => {
+        let data = '';
+
+        // A chunk of data has been recieved.
+        result.on('data', (chunk) => {
+          data += chunk;
+        });
+
+        // The whole response has been received. Print out the result.
+        result.on('end', () => {
+          msg.reply(data);
+        });
+      });
+
+      hreq.on('error', error => {
+        console.error(error);
+      });
+
+      hreq.end();
+    }
+    catch(e) {
+      console.error(e);
+    }
+  }
+});
+
 app.get('/', async(req, res) => {
   res.send('Running');
 });
