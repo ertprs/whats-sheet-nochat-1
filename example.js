@@ -6,99 +6,143 @@ const http = require('http');
 const url = require('url');
 
 client.on('qr', (qr) => {
-    // Generate and scan this code with your phone
-    console.log('QR RECEIVED', qr);
-    client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
+  // Generate and scan this code with your phone
+  console.log('QR RECEIVED', qr);
+  client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
 });
 
 client.on('ready', () => {
-    console.log('Client is ready!');
+  console.log('Client is ready!');
 });
 
 client.initialize();
 
 var listener = app.listen(process.env.PORT, function () {
-    console.log('Your app is listening on port ' + listener.address().port);
+  console.log('Your app is listening on port ' + listener.address().port);
 });
 
 app.get('/', async(req, res) => {
-    res.send('Running');
+  res.send('Running');
 });
 
 app.get('/qr', async (req, res) => {
-    try {
-        res.sendFile(__dirname+'/public/qr.png');
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    res.sendFile(__dirname+'/public/qr.png');
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.get('/info', (req, res) => {
-    if (client) {
-        let info = client.info;
-        res.send(client.info);
-    }
-    else
-    {
-        res.send('No Client Connected');
-    }
+  if (client) {
+    let info = client.info;
+    res.send(client.info);
+  }
+  else
+  {
+    res.send('No Client Connected');
+  }
+});
+
+app.get('/chats', async(req, res) => {
+  try {
+    const chats = await client.getChats();
+    res.send(chats);
+  }
+  catch(e) {
+    res.status(500).send('Get Chats Error!');
+    console.log(e.message);
+    //throw new Error(req.url);
+  }
+});
+
+app.get('/chats/:date', async(req, res) => {
+  try {
+    const chats = await client.getChats();
+    let dateStr = req.params.date.substring(0, 4) + '.' + req.params.date.substring(4,6) + '.' + req.params.date.substring(6,8);
+    let dateFrom = new Date(dateStr);
+    let filteredChat = chats.filter(c => c.timestamp >= (dateFrom.getTime() / 1000));
+    res.send(filteredChat);
+  }
+  catch(e) {
+    res.status(500).send('Get Chats By Date Error!');
+    console.log(e.message);
+    //throw new Error(req.url);
+  }
+});
+
+app.get('/chats/:dateFrom/:dateTo', async(req, res) => {
+  try {
+    const chats = await client.getChats();
+    let dateStr = req.params.dateFrom.substring(0, 4) + "." + req.params.dateFrom.substring(4,6) + "." + req.params.dateFrom.substring(6,8);
+    let dateFrom = new Date(dateStr);
+    dateStr = req.params.dateTo.substring(0, 4) + "." + req.params.dateTo.substring(4,6) + "." + req.params.dateTo.substring(6,8);
+    let dateTo = new Date(dateStr);
+    let filteredChat = chats.filter(c => c.timestamp >= (dateFrom.getTime() / 1000) && c.timestamp <= (dateTo.getTime() / 1000));
+    res.send(filteredChat);
+  }
+  catch(e) {
+    res.status(500).send('Get Chats By Date From To Error!');
+    console.log(e.message);
+    //throw new Error(req.url);
+  }
 });
 
 app.get('/chat/:id', async(req, res) => {
-    try {
-        let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
-        const chat = await client.getChatById(number);
-        if (req.query['load'] == 'true')
-            await chat.fetchMessages();
-        res.send(chat);
-    }
-    catch(e) {
-        res.status(500).send('Get Chat by Id Error');
-        throw new Error(req.url);
-    }
+  try {
+    let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
+    const chat = await client.getChatById(number);
+    if (req.query['load'] == 'true')
+      await chat.fetchMessages();
+    res.send(chat);
+  }
+  catch(e) {
+    res.status(500).send('Get Chat by Id Error');
+    throw new Error(req.url);
+  }
 });
 
 app.get('/query/:q', async(req, res) => {
-    try {
-        const reqUrl = url.parse(url.format({
-            protocol: 'http',
-            hostname: 'api.wolframalpha.com',
-            pathname: '/v1/result',
-            query: {
-                appid: 'TP5E7U-K9KXY8G2UV',
-                i: req.params.q
-            }
-        }));
-        const options = {
-            hostname: reqUrl.hostname,
-            port: 80,
-            path: reqUrl.path,
-            method: 'GET'
-        };
-        
-        console.log(reqUrl.path);
-        const hreq = http.request(options, result => {
-            let data = '';
-          
-            // A chunk of data has been recieved.
-            result.on('data', (chunk) => {
-                data += chunk;
-            });
+  try {
+    const reqUrl = url.parse(url.format({
+      protocol: 'http',
+      hostname: 'api.wolframalpha.com',
+      pathname: '/v1/result',
+      query: {
+        appid: 'TP5E7U-K9KXY8G2UV',
+        i: req.params.q
+      }
+    }));
+    const options = {
+      hostname: reqUrl.hostname,
+      port: 80,
+      path: reqUrl.path,
+      method: 'GET'
+    };
 
-            // The whole response has been received. Print out the result.
-            result.on('end', () => {
-                res.send(data);
-            });
-        });
+    console.log(reqUrl.path);
+    const hreq = http.request(options, result => {
+      let data = '';
 
-        hreq.on('error', error => {
-            res.status(500).send(error);
-            console.error(error);
-        });
+      // A chunk of data has been recieved.
+      result.on('data', (chunk) => {
+        data += chunk;
+      });
 
-        hreq.end();
-    }
-    catch(e) {
-        res.status(500).send(e);
-    }
+      // The whole response has been received. Print out the result.
+      result.on('end', () => {
+        res.send(data);
+      });
+    });
+
+    hreq.on('error', error => {
+      res.status(500).send(error);
+      console.error(error);
+    });
+
+    hreq.end();
+  }
+  catch(e) {
+    res.status(500).send(e);
+  }
 });
