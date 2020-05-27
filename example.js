@@ -109,7 +109,7 @@ app.get('/query/:q', async(req, res) => {
       hostname: 'api.wolframalpha.com',
       pathname: '/v1/result',
       query: {
-        appid: 'TP5E7U-K9KXY8G2UV',
+        appid: process.env.WOLFRAM_SECRET,
         i: req.params.q
       }
     }));
