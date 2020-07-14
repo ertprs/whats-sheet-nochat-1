@@ -71,11 +71,12 @@ client.on('message', msg => {
 });
 
 app.get('/', async(req, res) => {
-  if (client) {
-    var msg = 'Whatsapp APIs available:<br>';
+  if (client.info) {
+    var msg = 'Whatsapp Web is Connected to Number ' + client.info.me.user + '<br>';
+    msg += 'Whatsapp APIs available:<br>';
     msg += '<ul>';
-    msg += '<li>/info</li>';
-    msg += '<li>/chats</li>';
+    msg += '<li><a href=\'info\'>/info</a></li>';
+    msg += '<li><a href=\'chats\'>/chats</a></li>';
     msg += '</ul>';
     res.send(msg);
   }
@@ -93,7 +94,7 @@ app.get('/qr', async (req, res) => {
 });
 
 app.get('/info', (req, res) => {
-  if (client) {
+  if (client.info) {
     let info = client.info;
     res.send(client.info);
   }
