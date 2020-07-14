@@ -71,7 +71,17 @@ client.on('message', msg => {
 });
 
 app.get('/', async(req, res) => {
-  res.send('Running');
+  if (client) {
+    var msg = 'Whatsapp APIs available:<br>';
+    msg += '<ul>';
+    msg += '<li>/info</li>';
+    msg += '<li>/chats</li>';
+    msg += '</ul>';
+    res.send(msg);
+  }
+  else {
+    res.send('<a href=\'qr\'>Scan QR</a> to Start');
+  }
 });
 
 app.get('/qr', async (req, res) => {
@@ -123,9 +133,9 @@ app.get('/chats/:date', async(req, res) => {
 app.get('/chats/:dateFrom/:dateTo', async(req, res) => {
   try {
     const chats = await client.getChats();
-    let dateStr = req.params.dateFrom.substring(0, 4) + "." + req.params.dateFrom.substring(4,6) + "." + req.params.dateFrom.substring(6,8);
+    let dateStr = req.params.dateFrom.substring(0, 4) + '.' + req.params.dateFrom.substring(4,6) + '.' + req.params.dateFrom.substring(6,8);
     let dateFrom = new Date(dateStr);
-    dateStr = req.params.dateTo.substring(0, 4) + "." + req.params.dateTo.substring(4,6) + "." + req.params.dateTo.substring(6,8);
+    dateStr = req.params.dateTo.substring(0, 4) + '.' + req.params.dateTo.substring(4,6) + '.' + req.params.dateTo.substring(6,8);
     let dateTo = new Date(dateStr);
     let filteredChat = chats.filter(c => c.timestamp >= (dateFrom.getTime() / 1000) && c.timestamp <= (dateTo.getTime() / 1000));
     res.send(filteredChat);
