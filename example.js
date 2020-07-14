@@ -100,7 +100,7 @@ app.get('/info', (req, res) => {
   }
   else
   {
-    res.send('No Client Connected');
+    res.send('No Client Connected! <a href=\'qr\'>Scan QR</a> to Start');
   }
 });
 
