@@ -1,43 +1,20 @@
 const { Client } = require('whatsapp-web.js');
+const client = new Client({ puppeteer : { args: ['--no-sandbox'] } });
 const express = require('express');
 const app = express();
 const http = require('http');
 const url = require('url');
 const ws = require('ws');
-const fs = require('fs');
 
 // we need to create our own http server so express and ws can share it.
 const server = http.createServer(app);
 // pass the created server to ws
 const wss = new ws.Server({ server });
 
-const SESSION_FILE_PATH = __dirname + '/public/session.json';
-let sessionCfg;
-if (fs.existsSync(SESSION_FILE_PATH)) {
-  sessionCfg = require(SESSION_FILE_PATH);
-}
-
-const client = new Client({ puppeteer : { args: ['--no-sandbox'] }, session: sessionCfg });
-
-client.on('authenticated', (session) => {
-  console.log('AUTHENTICATED', session);
-  sessionCfg=session;
-  fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
-    if (err) {
-      console.error(err);
-    }
-  });
-});
-
-client.on('auth_failure', msg => {
-  // Fired if session restore was unsuccessfull
-  console.error('AUTHENTICATION FAILURE', msg);
-});
-
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
   console.log('QR RECEIVED', qr);
-  client.pupPage.screenShot()
+  client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
 });
 
 client.on('ready', () => {
