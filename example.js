@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const url = require('url');
+const WebSocket = require('ws');
 
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
@@ -22,6 +23,7 @@ var listener = app.listen(process.env.PORT, function () {
 });
 
 client.on('message', msg => {
+  broadcast(msg);
   if (msg.body == '!ping') {
     msg.reply('pong');
   }
@@ -198,3 +200,22 @@ app.get('/query/:q', async(req, res) => {
     res.status(500).send(e);
   }
 });
+
+const wss = new WebSocket.Server({ port: 4041 });
+wss.on('connection', function connection(ws, request, client) {
+  ws.on('message', function incoming(message) {
+	  console.log('received: %s', message);
+  });
+  
+  ws.on('error', function(e){
+	  console.log('error!: ' + e);
+  });
+});
+
+function broadcast(arg){
+  wss.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(arg);
+    }
+  });
+}
