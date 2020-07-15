@@ -72,22 +72,16 @@ client.on('message', msg => {
 
 app.get('/', async(req, res) => {
   if (client.info) {
-    var msg = 'Whatsapp Web is Connected to Number ' + client.info.me.user + '<br>';
-    msg += 'Whatsapp APIs available:<br>';
-    msg += '<ul>';
-    msg += '<li><a href=\'info\'>/info</a></li>';
-    msg += '<li><a href=\'chats\'>/chats</a></li>';
-    msg += '</ul>';
-    res.send(msg);
+    res.sendFile(__dirname + '/view/index.html');
   }
   else {
-    res.send('<a href=\'qr\'>Scan QR</a> to Start');
+    res.sendFile(__dirname + '/view/scan.html');
   }
 });
 
 app.get('/qr', async (req, res) => {
   try {
-    res.sendFile(__dirname+'/public/qr.png');
+    res.sendFile(__dirname + '/public/qr.png');
   } catch (error) {
     console.log(error);
   }
