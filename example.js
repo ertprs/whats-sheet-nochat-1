@@ -107,7 +107,7 @@ app.get('/', async(req, res) => {
 });
 
 app.get('/qr', async (req, res) => {
-  res.send('https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + qrCode);
+  res.send(qrCode);
 });
 
 app.get('/info', (req, res) => {
