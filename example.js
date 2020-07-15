@@ -146,8 +146,7 @@ app.get('/chat/:id', async(req, res) => {
   try {
     let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
     const chat = await client.getChatById(number);
-    if (req.query['load'] == 'true')
-      await chat.fetchMessages().then(f => res.send(f));
+    await chat.fetchMessages().then(f => res.send(f));
   }
   catch(e) {
     res.status(500).send('Get Chat by Id Error');
