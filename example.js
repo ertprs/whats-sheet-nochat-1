@@ -37,6 +37,7 @@ client.on('auth_failure', msg => {
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
   console.log('QR RECEIVED', qr);
+  client.pupPage.emulate(puppeteer.devices['iPhone 6']);
   client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
 });
 
