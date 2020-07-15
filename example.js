@@ -17,7 +17,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionCfg = require(SESSION_FILE_PATH);
 }
 
-const client = new Client({ puppeteer : { args: ['--no-sandbox'] }, session: sessionCfg });
+const client = new Client({ puppeteer : { args: ['--no-sandbox'] } });
 
 client.on('authenticated', (session) => {
   console.log('AUTHENTICATED', session);
@@ -34,11 +34,11 @@ client.on('auth_failure', msg => {
   console.error('AUTHENTICATION FAILURE', msg);
 });
 
+var qrCode = '';
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
   console.log('QR RECEIVED', qr);
-  client.pupPage.emulate(puppeteer.devices['iPhone 6']);
-  client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
+  qrCode = qr;
 });
 
 client.on('ready', () => {
@@ -107,11 +107,7 @@ app.get('/', async(req, res) => {
 });
 
 app.get('/qr', async (req, res) => {
-  try {
-    res.sendFile(__dirname + '/public/qr.png');
-  } catch (error) {
-    console.log(error);
-  }
+  res.send('https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + qrCode);
 });
 
 app.get('/info', (req, res) => {
