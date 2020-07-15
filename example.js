@@ -4,7 +4,12 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const url = require('url');
-const WebSocket = require('ws');
+const ws = require('ws');
+
+// we need to create our own http server so express and ws can share it.
+const server = http.createServer(app);
+// pass the created server to ws
+const wss = new ws.Server({ server });
 
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
@@ -17,10 +22,6 @@ client.on('ready', () => {
 });
 
 client.initialize();
-
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
 
 client.on('message', msg => {
   broadcast(msg);
@@ -201,7 +202,6 @@ app.get('/query/:q', async(req, res) => {
   }
 });
 
-const wss = new WebSocket.Server({ port: 4041 });
 wss.on('connection', function connection(ws, request, client) {
   ws.on('message', function incoming(message) {
 	  console.log('received: %s', message);
@@ -219,3 +219,8 @@ function broadcast(arg){
     }
   });
 }
+
+// listen for requests!
+const listener = server.listen(process.env.PORT, function() {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
