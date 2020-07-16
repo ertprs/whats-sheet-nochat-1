@@ -23,7 +23,7 @@
               setConnected(true);
               fetch(`/chats`)
                 .then(res => res.json())
-                .then(data => {setItems((data && data.items) || []; console.log(items);}));
+                .then(data => setItems(data || []));
             }
         })
       }, []);
@@ -32,8 +32,8 @@
         return html`
           <div>
             <div class="list">
-              ${items.map(res => html`
-                  <${Chat} chat=${res} />
+              ${items.map(c => html`
+                  <${Chat} chat=${c} />
                 `)}
             </div>
           </div>
@@ -47,7 +47,7 @@
         <div class="repl-list-item">
           <div>
             <a
-              href="${result.html_url}"
+              href="/chat/${chat.id.user}"
               target="_blank"
               rel="noopener noreferrer"
               class="repl-link"
