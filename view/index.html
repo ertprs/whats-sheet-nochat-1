@@ -25,7 +25,7 @@
                 .then(res => res.json())
                 .then(data => setItems((data && data.items) || []));
             }
-        })
+        )}
       }, []);
 
       if (isConnected)
