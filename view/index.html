@@ -23,7 +23,7 @@
               setConnected(true);
               fetch(`/chats`)
                 .then(res => res.json())
-                .then(data => setItems((data && data.items) || []));
+                .then(data => {setItems((data && data.items) || []; console.log(items);}));
             }
         })
       }, []);
