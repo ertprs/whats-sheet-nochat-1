@@ -23,7 +23,7 @@
           <h1 style="text-align:center; font-weight: 200">Example</h1>
           <div class="list">
             ${items.map(result => (
-            html`<${Result} {...result} />`
+            html`<${Result} ${result} />`
             ))}
           </div>
         </div>
