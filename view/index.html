@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <title>Whatsapp Web Multi</title>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
   <script type="module">
-    import { h, render } from "https://unpkg.com/preact@latest?module";
-    import { useState, useEffect } from "https://unpkg.com/preact@latest/hooks/dist/hooks.module.js?module";
-    import htm from "https://unpkg.com/htm@latest/dist/htm.module.js?module";
-    
-    const html = htm.bind(h);
+    import {
+      html, render,
+      useState,
+      useEffect,
+    } from 'https://unpkg.com/htm/preact/standalone.module.js'
     
     const App = () => {
       const [items, setItems] = useState([]);
@@ -51,6 +54,6 @@
         </div>
       `;
 
-    render(h(App), document.body);
+    render(html`<${App}/>`, document.body);
   </script>
 </html>
