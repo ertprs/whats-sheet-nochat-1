@@ -12,6 +12,10 @@
       const [items, setItems] = useState([]);
 
       useEffect(() => {
+        fetch(`/info`)
+          .then(
+        
+        )
         fetch(`/chats`)
           .then(res => res.json())
           .then(data => setItems((data && data.items) || []));
