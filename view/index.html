@@ -25,6 +25,9 @@
                 .then(res => res.json())
                 .then(data => setItems((data && data.items) || []));
             }
+            else {
+              fetch()
+            }
         )}
       }, []);
 
