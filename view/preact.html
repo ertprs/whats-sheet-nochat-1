@@ -1,48 +1,59 @@
-<script type="module">
-  import { h, Component, render } from 'https://unpkg.com/preact?module';
-  import htm from 'https://unpkg.com/htm?module';
+<!DOCTYPE html>
+<html lang="en">
+  <title>htm Demo</title>
+  <script type="module">
+    import {
+      html,
+      Component,
+      render
+    } from "https://unpkg.com/htm/preact/standalone.module.js";
 
-  // Initialize htm with Preact
-  const html = htm.bind(h);
-  
-  const SEARCH = "https://api.github.com/search/repositories";
+    const SEARCH = "https://api.github.com/search/repositories";
 
-  export default function Example() {
-    const [items, setItems] = useState([]);
+    export default function Example() {
+      const [items, setItems] = useState([]);
 
-    useEffect(() => {
-      fetch(`${SEARCH}?q=preact`)
-        .then(res => res.json())
-        .then(data => setItems((data && data.items) || []));
-    }, []);
+      useEffect(() => {
+        fetch(`${SEARCH}?q=preact`)
+          .then(res => res.json())
+          .then(data => setItems((data && data.items) || []));
+      }, []);
 
-    return (
-      <div>
-        <h1 style="text-align:center; font-weight: 200">Example</h1>
-        <div class="list">
-          {items.map(result => (
-            <Result {...result} />
-          ))}
+      return (
+        html`<div>
+          <h1 style="text-align:center; font-weight: 200">Example</h1>
+          <div class="list">
+            {items.map(result => (
+              <Result {...result} />
+            ))}
+          </div>
+        </div>`
+      );
+    };
+
+    const Result = result => (
+      html`<div class="repl-list-item">
+        <div>
+          <a
+            href={result.html_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="repl-link"
+          >
+            {result.full_name}
+          </a>
+          {" - "}
+          <strong>{result.stargazers_count}</strong>
         </div>
-      </div>
+        <p>{result.description}</p>
+      </div>`
     );
-  }
 
-  const Result = result => (
-    <div class="repl-list-item">
-      <div>
-        <a
-          href={result.html_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="repl-link"
-        >
-          {result.full_name}
-        </a>
-        {" - "}
-        <strong>{result.stargazers_count}</strong>
-      </div>
-      <p>{result.description}</p>
-    </div>
-  );
-</script>
+    render(
+      html`
+        <${Example} />
+      `,
+      document.body
+    );
+  </script>
+</html>
