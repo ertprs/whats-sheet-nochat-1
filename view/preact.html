@@ -22,15 +22,15 @@
         <div>
           <h1 style="text-align:center; font-weight: 200">Example</h1>
           <div class="list">
-            ${items.map(result => (
-            html`<${Result} ${result} />`
-            ))}
+            ${items.map(res => html`
+                <${Result} result=${res} />
+              `)}
           </div>
         </div>
       `;
     }
 
-    const Result = result =>
+    const Result = ({result}) =>
       html`
         <div class="repl-list-item">
           <div>
