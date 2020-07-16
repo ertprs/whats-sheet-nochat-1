@@ -25,10 +25,7 @@
                 .then(res => res.json())
                 .then(data => setItems((data && data.items) || []));
             }
-            else {
-              fetch()
-            }
-        )}
+        })
       }, []);
 
       if (isConnected)
@@ -42,7 +39,7 @@
           </div>
         `;
       else
-        return html`<${Disconnect}/>`;
+        return html`<${Disconnect}/><img src='/qr'/>`;
     }
 
     const Chat = ({chat}) =>
@@ -66,7 +63,7 @@
     
     const Disconnect = () =>
       html`
-        <div>No Phone Connected</div>
+        <div>Scan QR using Whatsapp on your Phone</div>
       `;
 
     render(html`<${App}/>`, document.body);
