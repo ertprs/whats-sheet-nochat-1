@@ -1,13 +1,52 @@
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-    Whatsapp Web is Connected!
-    Whatsapp APIs available:<br>
-    <ul>
-        <li><a href="\info">\info</a></li>
-        <li><a href="\chats">\chats</a></li>
-    </ul>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+  <title>Whatsapp Web Multi</title>
+  <script type="module">
+    import { h, render } from "https://unpkg.com/preact@latest?module";
+    import { useState, useEffect } from "https://unpkg.com/preact@latest/hooks/dist/hooks.module.js?module";
+    import htm from "https://unpkg.com/htm@latest/dist/htm.module.js?module";
+    
+    const html = htm.bind(h);
+    
+    const App = () => {
+      const [items, setItems] = useState([]);
+
+      useEffect(() => {
+        fetch(`/chats`)
+          .then(res => res.json())
+          .then(data => setItems((data && data.items) || []));
+      }, []);
+
+      return html`
+        <div>
+          <div class="list">
+            ${items.map(res => html`
+                <${Chat} chat=${res} />
+              `)}
+          </div>
+        </div>
+      `;
+    }
+
+    const Chat = ({chat}) =>
+      html`
+        <div class="repl-list-item">
+          <div>
+            <a
+              href="${result.html_url}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="repl-link"
+            >
+              ${chat.name}
+            </a>
+            ${" - "}
+            <strong>${chat.unreadCount}</strong>
+          </div>
+          <p>${chat.msgs}</p>
+        </div>
+      `;
+
+    render(h(App), document.body);
+  </script>
 </html>

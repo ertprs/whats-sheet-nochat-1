@@ -74,12 +74,12 @@ client.on('message', msg => {
 });
 
 app.get('/', async(req, res) => {
-  if (client.info) {
-    res.sendFile(__dirname + '/view/index.html');
-  }
-  else {
-    res.sendFile(__dirname + '/view/scan.html');
-  }
+  //if (client.info) {
+  res.sendFile(__dirname + '/view/index.html');
+  //}
+  //else {
+  //  res.sendFile(__dirname + '/view/scan.html');
+  //}
 });
 
 app.get('/qr', async (req, res) => {
@@ -107,7 +107,7 @@ app.get('/chats', async(req, res) => {
     res.send(chats);
   }
   catch(e) {
-    res.status(500).send('Get Chats Error!');
+    res.status(500).send({msg: 'Get Chats Error!'});
     console.log(e.message);
     //throw new Error(req.url);
   }
