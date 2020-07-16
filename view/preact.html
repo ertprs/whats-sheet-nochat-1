@@ -3,11 +3,16 @@
   <title>htm Demo</title>
   <script type="module">
     import {
-      html,
-      Component,
-      render
-    } from "https://unpkg.com/htm/preact/standalone.module.js";
+      createElement as h,
+      render,
+      Component
+    } from "https://unpkg.com/preact@latest?module";
+    import htm from "https://unpkg.com/htm@latest?module";
 
+    window.html = htm.bind(h);
+window.h = h;
+window.Component = Component;
+    
     const SEARCH = "https://api.github.com/search/repositories";
 
     export default function Example() {
@@ -19,35 +24,36 @@
           .then(data => setItems((data && data.items) || []));
       }, []);
 
-      return (
-        html`<div>
+      return html`
+        <div>
           <h1 style="text-align:center; font-weight: 200">Example</h1>
           <div class="list">
             {items.map(result => (
-              <Result {...result} />
+            <Result {...result} />
             ))}
           </div>
-        </div>`
-      );
-    };
-
-    const Result = result => (
-      html`<div class="repl-list-item">
-        <div>
-          <a
-            href={result.html_url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="repl-link"
-          >
-            {result.full_name}
-          </a>
-          {" - "}
-          <strong>{result.stargazers_count}</strong>
         </div>
-        <p>{result.description}</p>
-      </div>`
-    );
+      `;
+    }
+
+    const Result = result =>
+      html`
+        <div class="repl-list-item">
+          <div>
+            <a
+              href="{result.html_url}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="repl-link"
+            >
+              {result.full_name}
+            </a>
+            {" - "}
+            <strong>{result.stargazers_count}</strong>
+          </div>
+          <p>{result.description}</p>
+        </div>
+      `;
 
     render(
       html`
