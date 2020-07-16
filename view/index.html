@@ -28,16 +28,18 @@
         })
       }, []);
 
-      return html`
-        <div>
-          ${isConnected ? (
-          <div class="list">
-            ${items.map(res => html`
-                <${Chat} chat=${res} />
-              `)}
-          </div>) : (Not Connected)}
-        </div>
-      `;
+      if (isConnected)
+        return html`
+          <div>
+            <div class="list">
+              ${items.map(res => html`
+                  <${Chat} chat=${res} />
+                `)}
+            </div>
+          </div>
+        `;
+      else
+        return html`<${Disconnect}/><button onClick=${setConnected(true)}>Click Me</button>`;
     }
 
     const Chat = ({chat}) =>
@@ -57,6 +59,11 @@
           </div>
           <p>${chat.msgs}</p>
         </div>
+      `;
+    
+    const Disconnect = () =>
+      html`
+        <div>No Phone Connected</div>
       `;
 
     render(html`<${App}/>`, document.body);
