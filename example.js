@@ -91,14 +91,13 @@ app.get('/qr', async (req, res) => {
 });
 
 app.get('/info', (req, res) => {
-  //if (client.info) {
-  //  let info = client.info;
-  res.send(client.info);
-  //}
-  //else
-  //{
-  //  res.send('No Client Connected! <a href=\'qr\'>Scan QR</a> to Start');
-  //}
+  if (client.info) {
+    res.send(client.info);
+  }
+  else
+  {
+    res.send({msg: 'No Client Connected! <a href=\'qr\'>Scan QR</a> to Start'});
+  }
 });
 
 app.get('/chats', async(req, res) => {

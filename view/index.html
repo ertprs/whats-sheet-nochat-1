@@ -10,18 +10,21 @@
       useState,
       useEffect,
     } from 'https://unpkg.com/htm/preact/standalone.module.js'
-    
+
     const App = () => {
       const [items, setItems] = useState([]);
+      const isConnected = 
 
       useEffect(() => {
         fetch(`/info`)
-          .then(
-        
-        )
-        fetch(`/chats`)
           .then(res => res.json())
-          .then(data => setItems((data && data.items) || []));
+          .then(data => {
+            if (data.phone != null) {
+              fetch(`/chats`)
+                .then(res => res.json())
+                .then(data => setItems((data && data.items) || []));
+            }
+        })
       }, []);
 
       return html`
