@@ -224,3 +224,7 @@ function broadcast(arg){
 const listener = server.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+app.get('/preact', async(req, res) => {
+  res.sendFile(__dirname + '/view/preact.html');
+});
