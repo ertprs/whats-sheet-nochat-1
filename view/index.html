@@ -20,7 +20,7 @@
           .then(res => res.json())
           .then(data => {
             if (data.phone != null) {
-              i
+              setConnected(true);
               fetch(`/chats`)
                 .then(res => res.json())
                 .then(data => setItems((data && data.items) || []));
@@ -30,11 +30,12 @@
 
       return html`
         <div>
+          ${isConnected ? (
           <div class="list">
             ${items.map(res => html`
                 <${Chat} chat=${res} />
               `)}
-          </div>
+          </div>) : (Not Connected)}
         </div>
       `;
     }
