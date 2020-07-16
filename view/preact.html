@@ -22,8 +22,8 @@
         <div>
           <h1 style="text-align:center; font-weight: 200">Example</h1>
           <div class="list">
-            {items.map(result => (
-            <Result {...result} />
+            ${items.map(result => (
+            html`<${Result} {...result} />`
             ))}
           </div>
         </div>
@@ -35,17 +35,17 @@
         <div class="repl-list-item">
           <div>
             <a
-              href="{result.html_url}"
+              href="${result.html_url}"
               target="_blank"
               rel="noopener noreferrer"
               class="repl-link"
             >
-              {result.full_name}
+              ${result.full_name}
             </a>
-            {" - "}
-            <strong>{result.stargazers_count}</strong>
+            ${" - "}
+            <strong>${result.stargazers_count}</strong>
           </div>
-          <p>{result.description}</p>
+          <p>${result.description}</p>
         </div>
       `;
 
