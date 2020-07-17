@@ -3,6 +3,7 @@
   <title>Whatsapp Web Multi</title>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
   </head>
   <script type="module">
     import {
@@ -72,7 +73,6 @@
       const[msgs,setMsgs] = useState([]);
       
       useEffect(() => {
-        console.log("Message selectedChat: " + selectedChat);
         fetch(`/chat/` + selectedChat.id.user)
           .then(res => res.json())
           .then(data => setMsgs(data || []))
@@ -83,10 +83,10 @@
         return html`<${Loading} />`;
         
       return html`
+          <h3>${selectedChat.name}</h3>
           <div class="list">
             <ul>
             ${msgs.map(m => html`
-                <strong>${selectedChat.name}</strong>
                 <li>${m.body}</li>
               `)}
             </ul>
@@ -103,6 +103,6 @@
     const Loading = () =>
       html`<div>Loading...</div>`;
 
-    render(html`<${App}/>`, document.body);
+    render(html`<H1>Whatsapp Web Multi</H1><${App}/>`, document.body);
   </script>
 </html>
