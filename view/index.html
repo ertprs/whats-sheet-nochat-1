@@ -58,12 +58,7 @@
           html`
             <div class="repl-list-item">
               <div>
-                <a
-                  href="/chat/${chat.id.user}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="repl-link"
-                >
+                <a href="#" onClick="setSelectedId()">
                   ${chat.name}
                 </a>
                 ${" - "}
@@ -78,25 +73,17 @@
     }
     
     const Message = ({selectedId}) => {
+      const[msgs,setMsgs] = useState([]);
+      
       useEffect(() => {
         fetch(`/chat/` + selectedId)
           .then(res => res.json())
-          .then(data => {
-            if (data.phone != null) {
-              setConnected(true);
-              fetch(`/chats`)
-                .then(res => res.json())
-                .then(data => setItems(data || []))
-                .then(() => setLoading(false));
-            }
-            else
-              setLoading(false);
-        })
+          .then(data => setMsgs(data || []));
       }, []);            
 
       return
         html`
-          <div>${}
+          <div>${selectedId} ${msgs.length}</div>
         `;
     }
     
