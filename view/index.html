@@ -43,7 +43,7 @@
             <div>
               <div class="list">
                 ${items.map(c => html`
-                    <div onClick="${setSelectedId(c.id.user)}"><${Chat} chat=${c} /></div>
+                    <${Chat} chat=${c} onClick="${() => setSelectedId(c.id.user)}"/>
                   `)}
               </div>
             </div>`;
@@ -69,13 +69,18 @@
       const[msgs,setMsgs] = useState([]);
       
       useEffect(() => {
+        console.log("Message selectedId: " + selectedId);
         fetch(`/chat/` + selectedId)
           .then(res => res.json())
           .then(data => setMsgs(data || []));
       }, []);            
 
-      return        html`
-          <div>${selectedId} ${msgs.length}</div>
+      return html`
+          <div class="list">
+            ${items.map(c => html`
+                <${Chat} chat=${c} onClick="${() => setSelectedId(c.id.user)}"/>
+              `)}
+          </div>
         `;
     }
     
