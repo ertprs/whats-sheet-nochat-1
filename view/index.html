@@ -84,8 +84,8 @@
             <caption>${selectedChat.name}</caption>
             ${msgs.map(m => html`
               <tr>
-                <td align='${m.fromMe ? 'right' : 'left'}'>${m.body} 
-                <sub style='margin-left: 20px'>${new Date(m.timestamp * 1000).toLocaleTimeString('id-Id', {hour: '2-digit', minute:'2-digit', hour12: 'false'})}</sub></td>
+                <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>${m.body} 
+                <sub style='margin-left: 20px'>${new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'})}</sub></td>
               </tr>
               `)}
           </table>
