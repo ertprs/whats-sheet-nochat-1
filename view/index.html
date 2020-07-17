@@ -34,7 +34,7 @@
       }, []);
 
       if (isLoading)
-        return html`<div>Loading...</div>`;
+        return html`<Loading/>`;
       
       if (isConnected)
       {
@@ -68,15 +68,20 @@
         `;
     
     const Message = ({selectedId}) => {
+      const[isLoading,setIsLoading] = useState(true);
       const[msgs,setMsgs] = useState([]);
       
       useEffect(() => {
         console.log("Message selectedId: " + selectedId);
         fetch(`/chat/` + selectedId)
           .then(res => res.json())
-          .then(data => setMsgs(data || []));
+          .then(data => setMsgs(data || []))
+          .then(() => setIsLoading(false));
       }, []);            
 
+      if (isLoading)
+        return html`<Loading/>`;
+        
       return html`
           <div class="list">
             <ul>
@@ -93,6 +98,9 @@
         <div>Scan QR using Whatsapp on your Phone</div>
         <img src='/qr'/>
       `;
+
+    const Loading = () =>
+      html`<div>Loading...</div>`;
 
     render(html`<${App}/>`, document.body);
   </script>
