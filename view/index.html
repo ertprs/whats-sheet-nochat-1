@@ -12,7 +12,7 @@
     } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
     const App = () => {
-      const [isLoading, setLoading] = useState(false);
+      const [isLoading, setLoading] = useState(true);
       const [items, setItems] = useState([]);
       const [isConnected, setConnected] = useState(false); 
 
@@ -24,22 +24,30 @@
               setConnected(true);
               fetch(`/chats`)
                 .then(res => res.json())
-                .then(data => setItems(data || []));
+                .then(data => setItems(data || []))
+                .then(() => setLoading(false));
             }
+            else
+              setLoading(false);
         })
       }, []);
 
-      return ${isConnected ? 
-        html`
-          <div>
-            <div class="list">
-              ${items.map(c => html`
-                  <${Chat} chat=${c} />
-                `)}
+      if (isLoading)
+        return html`<div>Loading...</div>`;
+      
+      if (isConnected)
+        return 
+          html`
+            <div>
+              <div class="list">
+                ${items.map(c => html`
+                    <${Chat} chat=${c} />
+                  `)}
+              </div>
             </div>
-          </div>
-        ` :
-        html`<${Disconnect}/><img src='/qr'/>`};
+          `;
+      
+      return html`<${Disconnect}/><img src='/qr'/>`;
     }
 
     const Chat = ({chat}) => {
