@@ -11,6 +11,7 @@
     
     const Example = () => {
       const [items, setItems] = useState([]);
+      const [txt,setTxt] = useState('');
 
       useEffect(() => {
         fetch(`${SEARCH}?q=preact`)
@@ -21,6 +22,7 @@
       return html`
         <div>
           <h1 style="text-align:center; font-weight: 200">Example</h1>
+          <input value='${txt}' onInput='${() => setTxt(e.target.value)}'/><button onClick='${() => send()}' 
           <div class="list">
             ${items.map(res => html`
                 <${Result} result=${res} />
