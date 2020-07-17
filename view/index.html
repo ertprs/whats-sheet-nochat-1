@@ -39,25 +39,21 @@
       if (isConnected)
       {
         if (selectedId == "") {
-          return 
-            html`
-              <div>
-                <div class="list">
-                  ${items.map(c => html`
-                      <${Chat} chat=${c} />
-                    `)}
-                </div>
+          return html`
+            <div>
+              <div class="list">
+                ${items.map(c => html`
+                    <div onClick="${setSelectedId(c.id.user)}"><${Chat} chat=${c} /></div>
+                  `)}
               </div>
-            `;
+            </div>`;
         }
-        return
-          html`<${Message} selectedId="${selectedId}"/>`;
+        return html`<${Message} selectedId="${selectedId}"/>`;
       }
       return html`<${Disconnect}/>`;
     }
 
-    const Chat = ({chat}) => {      
-      return
+    const Chat = ({chat}) =>
         html`
           <div class="repl-list-item">
             <div>
@@ -68,7 +64,6 @@
             <p>${chat.msgs}</p>
           </div>
         `;
-    }
     
     const Message = ({selectedId}) => {
       const[msgs,setMsgs] = useState([]);
@@ -79,8 +74,7 @@
           .then(data => setMsgs(data || []));
       }, []);            
 
-      return
-        html`
+      return        html`
           <div>${selectedId} ${msgs.length}</div>
         `;
     }
