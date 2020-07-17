@@ -20,7 +20,8 @@
       }, []);
 
       var onInput = function(e) {
-        setTxt({value: e.target.value})
+        //console.log(e);
+        setTxt(e.target.value);
       }
       var send = function() {
         console.log(txt);  
@@ -29,7 +30,7 @@
       return html`
         <div>
           <h1 style="text-align:center; font-weight: 200">Example</h1>
-          <input value='${txt}' onInput='${() => onInput}'/><button onClick='${() => send()}'>Send</button>
+          <input value='${txt}' onInput='${onInput}'/><button onClick='${send}'>Send</button>
           <div class="list">
             ${items.map(res => html`
                 <${Result} result=${res} />

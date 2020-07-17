@@ -77,8 +77,12 @@
           .then(() => setIsLoading(false));
       }, []);         
       
+      const onInputTxt = function(e) {
+        setTxt(e.target.value);
+      }
+      
       const sendMessage = function() {
-        al(txt);
+        alert(txt);
       };
 
       if (isLoading)
@@ -94,7 +98,7 @@
               </tr>
               `)}
           </table>
-          <input value=${txt} onInput='${() => setTxt(e.target.value)}'/><button onClick='${() => sendMessage()}'>Send</button>
+          <input value=${txt} onInput='${onInputTxt}'/><button onClick='${sendMessage}'>Send</button>
         `;
     }
     
