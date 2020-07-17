@@ -12,6 +12,7 @@
     } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
     const App = () => {
+      const [isLoading, setLoading] = useState(false);
       const [items, setItems] = useState([]);
       const [isConnected, setConnected] = useState(false); 
 
@@ -28,8 +29,8 @@
         })
       }, []);
 
-      if (isConnected)
-        return html`
+      return ${isConnected ? 
+        html`
           <div>
             <div class="list">
               ${items.map(c => html`
@@ -37,9 +38,8 @@
                 `)}
             </div>
           </div>
-        `;
-      else
-        return html`<${Disconnect}/><img src='/qr'/>`;
+        ` :
+        html`<${Disconnect}/><img src='/qr'/>`};
     }
 
     const Chat = ({chat}) => {
