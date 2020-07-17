@@ -57,6 +57,7 @@
     const Chat = ({chat},{onClick}) =>
         html`
           <div>
+          <td>
             <strong>${chat.name}</strong>
             ${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
             <p>${chat.msgs}</p>
@@ -94,7 +95,7 @@
       `;
 
     const Loading = () =>
-      html`<div>Loading...</div>`;
+      html`<div style='position: absolute; top: 50%; width:100%; margin: 0'><center><h1>Loading...</h1></center></div>`;
     
     const Header = () =>
       html`
