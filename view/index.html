@@ -43,7 +43,7 @@
           return html`
             <table>
               ${items.map(c => html`
-                <tr onClick="${() => setSelectedChat(c)}"><td><${Chat} chat=${c} /></td></tr>
+                <tr onClick="${() => setSelectedChat(c)}"><${Chat} chat=${c} /></tr>
                   `)}
             </table>`;
         }
@@ -54,14 +54,14 @@
       return html`<${Disconnect}/>`;
     }
 
-    const Chat = ({chat},{onClick}) =>
+    const Chat = ({chat}) =>
         html`
-          <div>
-          <td>
-            <strong>${chat.name}</strong>
-            ${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
-            <p>${chat.msgs}</p>
-          </div>
+        <div>
+          <strong>${chat.name}</strong>
+          <p style='float:right'>${new Date(chat.timestamp * 1000).toLocaleDateString()}</p>
+          <p>${chat.msgs}</p>
+          <p style='float:right'>${chat.unreadCount > 0 && chat.unreadCount}</p>
+        </div>
         `;
     
     const Message = ({selectedChat}) => {
