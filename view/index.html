@@ -42,24 +42,29 @@
         return html`<${Disconnect}/><img src='/qr'/>`;
     }
 
-    const Chat = ({chat}) =>
-      html`
-        <div class="repl-list-item">
-          <div>
-            <a
-              href="/chat/${chat.id.user}"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="repl-link"
-            >
-              ${chat.name}
-            </a>
-            ${" - "}
-            <strong>${chat.unreadCount}</strong>
+    const Chat = ({chat}) => {
+      
+      select()
+      
+      return
+        html`
+          <div class="repl-list-item">
+            <div>
+              <a
+                href="/chat/${chat.id.user}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="repl-link"
+              >
+                ${chat.name}
+              </a>
+              ${" - "}
+              <strong>${chat.unreadCount}</strong>
+            </div>
+            <p>${chat.msgs}</p>
           </div>
-          <p>${chat.msgs}</p>
-        </div>
-      `;
+        `;
+    }
     
     const Disconnect = () =>
       html`
