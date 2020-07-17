@@ -56,12 +56,9 @@
 
     const Chat = ({chat},{onClick}) =>
         html`
-          <div class="repl-list-item">
-            <div>
-<strong>${chat.name}</script>strong>
-              ${" - "}
-              <strong>${chat.unreadCount}</strong>
-            </div>
+          <div>
+            <strong>${chat.name}</strong>
+            ${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
             <p>${chat.msgs}</p>
           </div>
         `;
@@ -98,7 +95,18 @@
 
     const Loading = () =>
       html`<div>Loading...</div>`;
+    
+    const Header = () =>
+      html`
+      <div style='overflow: hidden; position: fixed; top: 0; left:0; width: 100%;'>
+        <center><h2>Whatsapp Web Multi</h2></center>
+      </div>`;
 
-    render(html`<H1>Whatsapp Web Multi</H1><${App}/>`, document.body);
+    render(html`
+      <${Header}/>
+      <div style='margin-top:60px'>
+        <${App}/>
+      </div>`
+      , document.body);
   </script>
 </html>
