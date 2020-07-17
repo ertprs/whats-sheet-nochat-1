@@ -47,36 +47,63 @@
             </div>
           `;
       
-      return html`<${Disconnect}/><img src='/qr'/>`;
+      return html`<${Disconnect}/>`;
     }
 
     const Chat = ({chat}) => {
+      const[selectedId,setSelectedId] = useState('');
       
-      select()
+      if (selectedId == '') 
+        return
+          html`
+            <div class="repl-list-item">
+              <div>
+                <a
+                  href="/chat/${chat.id.user}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="repl-link"
+                >
+                  ${chat.name}
+                </a>
+                ${" - "}
+                <strong>${chat.unreadCount}</strong>
+              </div>
+              <p>${chat.msgs}</p>
+            </div>
+          `;
       
       return
+        html`<${Message} selectedId={$selectedId}/>`
+    }
+    
+    const Message = ({selectedId}) => {
+      useEffect(() => {
+        fetch(`/info`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.phone != null) {
+              setConnected(true);
+              fetch(`/chats`)
+                .then(res => res.json())
+                .then(data => setItems(data || []))
+                .then(() => setLoading(false));
+            }
+            else
+              setLoading(false);
+        })
+      }, []);            
+
+      return
         html`
-          <div class="repl-list-item">
-            <div>
-              <a
-                href="/chat/${chat.id.user}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="repl-link"
-              >
-                ${chat.name}
-              </a>
-              ${" - "}
-              <strong>${chat.unreadCount}</strong>
-            </div>
-            <p>${chat.msgs}</p>
-          </div>
+          <div>${}
         `;
     }
     
     const Disconnect = () =>
       html`
         <div>Scan QR using Whatsapp on your Phone</div>
+        <img src='/qr'/>
       `;
 
     render(html`<${App}/>`, document.body);
