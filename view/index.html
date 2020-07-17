@@ -41,13 +41,11 @@
       {
         if (selectedChat == null) {
           return html`
-            <div>
-              <div class="list">
-                ${items.map(c => html`
-                    <div onClick="${() => setSelectedChat(c)}"><${Chat} chat=${c} /></div>
+            <table>
+              ${items.map(c => html`
+                <tr onClick="${() => setSelectedChat(c)}"><td><${Chat} chat=${c} /></td></tr>
                   `)}
-              </div>
-            </div>`;
+            </table>`;
         }
         return html`
           <button onClick="${() => setSelectedChat(null)}">Back</button>
@@ -60,7 +58,7 @@
         html`
           <div class="repl-list-item">
             <div>
-              ${chat.name}
+<strong>${chat.name}</script>strong>
               ${" - "}
               <strong>${chat.unreadCount}</strong>
             </div>
@@ -83,14 +81,12 @@
         return html`<${Loading} />`;
         
       return html`
-          <h3>${selectedChat.name}</h3>
-          <div class="list">
-            <ul>
+          <table>
+            <caption>${selectedChat.name}</caption>
             ${msgs.map(m => html`
-                <li>${m.body}</li>
+              <tr><td align="${m.fromMe ? 'left' : 'right'}">${m.body}</td></tr>
               `)}
-            </ul>
-          </div>
+          </table>
         `;
     }
     
