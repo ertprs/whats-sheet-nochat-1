@@ -127,3 +127,31 @@ function broadcast(arg){
 const listener = server.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+app.get('/getimage/:id/:msgid', async(req, res) => {
+	try {
+		let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
+		let msgId = req.params.msgid;
+		await client.getChatById(number).then(async(c)=>{
+			let searchOptions = { limit: Infinity };
+			await c.fetchMessages(searchOptions).then(messages=>{
+				messages.forEach(async (msg, index)=>{
+					if(msg.id.id==msgId){
+						await msg.downloadMedia().then(value=>{
+							res.send(value);
+						}).catch(err=>{
+							res.status(500).send('Error Downloading Image in Get Image!'');
+						});
+					}
+				});
+			}).catch(err => {
+				res.status(500).send("Error Fetch Messages in Get Image!");
+			});
+		}).catch(err => {
+			res.status(500).send("Error Chat not Found in Get Image!");
+		});;
+
+	} catch (e) {
+		res.status(500).send("Error Get Image!");
+    }
+});
