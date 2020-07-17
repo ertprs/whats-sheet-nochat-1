@@ -75,16 +75,17 @@
       const[txt,setTxt] = useState("");
       
       useEffect(() => {
-        if (selectedChat == null) return;
+        if (selectedChat <>)
         fetch(`/chat/` + selectedChat.id.user)
           .then(res => res.json())
           .then(data => setMsgs(data || []))
           .then(() => setIsLoading(false));
       }, []);            
 
-      sendMessage = useCallback(() => console.log(txt));
-      
-      return html`<input value=${txt} /><button onClick="${() => sendMessage()}">Send</button>`;
+      const sendMessage = function() {
+        console.log(txt);
+      };
+      return html`<input value=${txt} /><button onClick=("${() => sendMessage()}")>Send</button>`;
       //if (isLoading)
       //  return html`<${Loading} />`;     
       
