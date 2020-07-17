@@ -15,6 +15,7 @@
       const [isLoading, setLoading] = useState(true);
       const [items, setItems] = useState([]);
       const [isConnected, setConnected] = useState(false); 
+      const [selectedId, setSelectedId] = useState("");
 
       useEffect(() => {
         fetch(`/info`)
@@ -36,40 +37,37 @@
         return html`<div>Loading...</div>`;
       
       if (isConnected)
-        return 
-          html`
-            <div>
-              <div class="list">
-                ${items.map(c => html`
-                    <${Chat} chat=${c} />
-                  `)}
+      {
+        if (selectedId = "")
+          return 
+            html`
+              <div>
+                <div class="list">
+                  ${items.map(c => html`
+                      <div onClick="${setSelectedId(c.id.user)}"><${Chat} chat=${c} /></div>
+                    `)}
+                </div>
               </div>
-            </div>
-          `;
-      
+            `;
+        
+        return
+          html`<${Message} selectedId="${selectedId}"/>`;
+      }
       return html`<${Disconnect}/>`;
     }
 
-    const Chat = ({chat}) => {
-      const[selectedId,setSelectedId] = useState('');
-      
-      if (selectedId == '') 
-        return
-          html`
-            <div class="repl-list-item">
-              <div>
-                <a href="#" onClick="setSelectedId(${chat.id.user})">
-                  ${chat.name}
-                </a>
-                ${" - "}
-                <strong>${chat.unreadCount}</strong>
-              </div>
-              <p>${chat.msgs}</p>
-            </div>
-          `;
-      
+    const Chat = ({chat}) => {      
       return
-        html`<${Message} selectedId={$selectedId}/>`
+        html`
+          <div class="repl-list-item">
+            <div>
+              ${chat.name}
+              ${" - "}
+              <strong>${chat.unreadCount}</strong>
+            </div>
+            <p>${chat.msgs}</p>
+          </div>
+        `;
     }
     
     const Message = ({selectedId}) => {
