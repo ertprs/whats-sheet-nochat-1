@@ -38,18 +38,18 @@
       
       if (isConnected)
       {
-        if (selectedId = "")
+        if (selectedId == "") {
           return 
             html`
               <div>
                 <div class="list">
                   ${items.map(c => html`
-                      <div onClick="${setSelectedId(c.id.user)}"><${Chat} chat=${c} /></div>
+                      <${Chat} chat=${c} />
                     `)}
                 </div>
               </div>
             `;
-        
+        }
         return
           html`<${Message} selectedId="${selectedId}"/>`;
       }
