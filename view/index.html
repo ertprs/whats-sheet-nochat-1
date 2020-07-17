@@ -81,7 +81,7 @@
           <table>
             <caption>${selectedChat.name}</caption>
             ${msgs.map(m => html`
-              <tr><td align="${m.fromMe ? 'left' : 'right'}">${m.body}</td></tr>
+              <tr><td align="${m.fromMe ? 'right' : 'left'}">${m.body}</td></tr>
               `)}
           </table>
         `;
@@ -98,13 +98,13 @@
     
     const Header = () =>
       html`
-      <div style='overflow: hidden; position: fixed; top: 0; left:0; width: 100%;'>
-        <center><h2>Whatsapp Web Multi</h2></center>
+      <div style='overflow: hidden; position: fixed; top: 0; left:0; width: 100%; background-color: palegreen'>
+        <center><h2 style='margin-top:1rem'>Whatsapp Web Multi</h2></center>
       </div>`;
 
     render(html`
       <${Header}/>
-      <div style='margin-top:60px'>
+      <div style='margin-top:40px'>
         <${App}/>
       </div>`
       , document.body);
