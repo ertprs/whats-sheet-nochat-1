@@ -43,17 +43,19 @@
             <div>
               <div class="list">
                 ${items.map(c => html`
-                    <${Chat} chat=${c} onClick="${() => setSelectedId(c.id.user)}"/>
+                    <div onClick="${() => setSelectedId(c.id.user)}"><${Chat} chat=${c} /></div>
                   `)}
               </div>
             </div>`;
         }
-        return html`<${Message} selectedId="${selectedId}"/>`;
+        return html`
+          <button onClick="${() => setSelectedId('')}">Back</button>
+          <${Message} selectedId="${selectedId}"/>`;
       }
       return html`<${Disconnect}/>`;
     }
 
-    const Chat = ({chat}) =>
+    const Chat = ({chat},{onClick}) =>
         html`
           <div class="repl-list-item">
             <div>
@@ -77,9 +79,11 @@
 
       return html`
           <div class="list">
-            ${items.map(c => html`
-                <${Chat} chat=${c} onClick="${() => setSelectedId(c.id.user)}"/>
+            <ul>
+            ${msgs.map(m => html`
+                <li>${m.body}</li>
               `)}
+            </ul>
           </div>
         `;
     }
