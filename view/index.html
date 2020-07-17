@@ -68,21 +68,21 @@
     const Message = ({selectedChat}) => {
       const[isLoading,setIsLoading] = useState(true);
       const[msgs,setMsgs] = useState([]);
-      const[txt,setTxt] = useState("");
+      const[txt,setTxt] = useState('');
       
       useEffect(() => {
         fetch(`/chat/` + selectedChat.id.user)
           .then(res => res.json())
           .then(data => setMsgs(data || []))
           .then(() => setIsLoading(false));
-      }, []);            
+      }, []);         
+      
+      const sendMessage = function() {
+        al(txt);
+      };
 
       if (isLoading)
         return html`<${Loading} />`;
-        
-      sendMessage = function() {
-        console.log(txt);
-      };
       
       return html`
           <table>
@@ -94,7 +94,7 @@
               </tr>
               `)}
           </table>
-          <input value=${txt} /><button onClick="${() => sendMessage()}">Send</button>
+          <input value=${txt} onInput='${() => setTxt(e.target.value)}'/><button onClick='${() => sendMessage()}'>Send</button>
         `;
     }
     
