@@ -34,6 +34,10 @@
         })
       }, []);
 
+      return html`
+          <button onClick="${() => setSelectedChat(null)}">Back</button>
+          <${Message} selectedChat="${selectedChat}"/>`;
+      
       if (isLoading)
         return html`<${Loading} />`;
       
@@ -68,6 +72,7 @@
     const Message = ({selectedChat}) => {
       const[isLoading,setIsLoading] = useState(true);
       const[msgs,setMsgs] = useState([]);
+      const[txt,setTxt] = useState("");
       
       useEffect(() => {
         fetch(`/chat/` + selectedChat.id.user)
@@ -79,6 +84,10 @@
       if (isLoading)
         return html`<${Loading} />`;
         
+      sendMessage = () => {
+        console.log(txt);
+      };
+      
       return html`
           <table>
             <caption>${selectedChat.name}</caption>
@@ -89,6 +98,7 @@
               </tr>
               `)}
           </table>
+          <input value=${txt} /><button onClick=("${() => sendMessage()}")>Send</button>
         `;
     }
     
