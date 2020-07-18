@@ -156,8 +156,21 @@ app.get('/getimage/:id/:msgid', async(req, res) => {
   }
 });
 
+app.get('/send/:id/:message', function(req, res) {
+  try {
+    let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
+    let message = req.params.message;
+    res.send(client.sendMessage(number, message));
+  }
+  catch(e) {
+    res.status(500).send('Send Message Error');
+    throw new Error(req.url);
+  }
+});
+
 app.post('/send', function(req, res) {
   try {
+    console.log(req);
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let message = req.body.message;
     res.send(client.sendMessage(number, message));
