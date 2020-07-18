@@ -118,8 +118,9 @@ wss.on('connection', function connection(ws, request, client) {
 });
 
 function broadcast(arg){
+  console.log('Broadcast ' + JSON.stringify(wss.clients));
   wss.clients.forEach(function each(c) {
-    console.log(c);
+    console.log(c.readyState + ' ' + WebSocket.OPEN + ' = ' + (c.readyState === WebSocket.OPEN));
     if (c.readyState === WebSocket.OPEN) {
       c.send(arg);
     }
