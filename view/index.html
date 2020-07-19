@@ -22,6 +22,17 @@
       const [selectedChat, setSelectedChat] = useState(null);
 
       useEffect(() => {
+        socket.on('connect', () => {
+          console.log('io');
+        });
+        
+        socket.on('message', (data) => {
+          console.log(data);
+          var findChat = items.find(c => c.id.user == data.id.user);
+          findChat.unreadCount++;
+          console.log(findChat);
+        });
+        
         fetch(`/info`)
           .then(res => res.json())
           .then(data => {
@@ -36,14 +47,6 @@
               setLoading(false);
         })
       }, []);
-      
-      socket.on('connect', () => {
-          console.log('io');
-        });
-        
-      socket.on('message', (data) => {
-          console.log(data);
-      });
       
       if (isLoading)
         return html`<${Loading} />`;
