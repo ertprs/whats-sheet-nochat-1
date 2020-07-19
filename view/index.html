@@ -56,6 +56,8 @@
           if(find) {
             find.unreadCount++;
             find.lastMsg = newMsg;
+            find.timestamp = newMsg.timestamp;
+            items.sort(function(x,y){ return x == first ? -1 : y == first ? 1 : 0; });
           }
         } 
         
