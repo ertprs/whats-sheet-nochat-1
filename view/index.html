@@ -28,9 +28,13 @@
         
         socket.on('message', (data) => {
           console.log(data);
-          var findChat = items.find(c => c.id.user == data.id.user);
-          findChat.unreadCount++;
-          console.log(findChat);
+          var findChat = items.find(c => c.id.user == data.from.replace('@c.us','').replace('@g.us',''));
+          
+          if(findChat) {
+            findChat.unreadCount++;
+            console.log(findChat);
+            setItems(items);
+          }
         });
         
         fetch(`/info`)
