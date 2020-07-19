@@ -8,7 +8,7 @@ const io = require('socket.io')(http);
 
 
 io.on('connection', (socket) => {
-  console.log(io.'a user connected');
+  console.log(io.engine.clientsCount + ' user connected');
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
