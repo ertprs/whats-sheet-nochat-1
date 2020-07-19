@@ -32,7 +32,7 @@ client.on('ready', () => {
 client.initialize();
 
 client.on('message', msg => {
-  io.emit(msg);
+  io.emit('message', msg);
 });
 
 app.get('/', async(req, res) => {

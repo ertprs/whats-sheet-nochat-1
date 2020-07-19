@@ -13,6 +13,8 @@
       useEffect,
     } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
+    const socket = io();
+    
     const App = () => {
       const [isLoading, setLoading] = useState(true);
       const [items, setItems] = useState([]);
@@ -34,6 +36,24 @@
               setLoading(false);
         })
       }, []);
+      
+      componentDidMount() {
+		document.querySelectorAll('.inputMessage')[0].focus();
+		socket.on('login', (data) => {
+			this.appendMessage([
+				{ type: 'log', body: 'Welcome to Socket.IO Chat – ' },
+				getParticipantsMessage(data)
+			]);
+		});
+
+		socket.on('new message', (data) => {
+			this.appendMessage({
+				type: 'message',
+				isTyping: false,
+				userName: data.username,
+				body: data.message
+			});
+		});
       
       if (isLoading)
         return html`<${Loading} />`;
