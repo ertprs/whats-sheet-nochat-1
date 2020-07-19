@@ -28,8 +28,10 @@
         
         socket.on('message', (data) => {
           console.log(data);
-          var findChat = items.find(c => c.id.user == data.from.replace('@c.us','').replace('@g.us',''));
-          
+          var findChat = items.find(c => c.id._serialized == data.from);
+          console.log(data.from);
+          console.log(items[1].id._serialized);
+          console.log(findChat);
           if(findChat) {
             findChat.unreadCount++;
             console.log(findChat);
