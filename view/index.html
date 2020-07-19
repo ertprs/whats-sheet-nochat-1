@@ -8,14 +8,14 @@
   </head>
   <script type="module">
     import {
-      html, Component, render,
+      html, render,
       useState,
       useEffect,
     } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
     const socket = io();
     
-    class App extends Component {
+    const App = () => {
       const [isLoading, setLoading] = useState(true);
       const [items, setItems] = useState([]);
       const [isConnected, setConnected] = useState(false); 
@@ -37,17 +37,14 @@
         })
       }, []);
       
-      componentDidMount() {
-        socket.on('connect', () => {
-          console.log('io connected');
+      socket.on('connect', () => {
+          console.log('io');
         });
         
-        socket.on('message', (data) => {
+      socket.on('message', (data) => {
           console.log(data);
-        });
-      }
+      });
       
-      render() {
       if (isLoading)
         return html`<${Loading} />`;
       
@@ -66,7 +63,6 @@
           <${Message} selectedChat="${selectedChat}"/>`;
       }
       return html`<${Disconnect}/>`;
-      }
     }
 
     const Chat = ({chat}) =>
