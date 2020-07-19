@@ -26,11 +26,8 @@
           console.log('io');
         });
         
-        var that = this;
         socket.on('message', (data) => {
           console.log(data);
-          console.log(that);
-          that.findChat(c);
         });
         
         fetch(`/info`)
