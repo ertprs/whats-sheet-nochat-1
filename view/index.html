@@ -37,23 +37,12 @@
         })
       }, []);
       
-      componentDidMount() {
-		document.querySelectorAll('.inputMessage')[0].focus();
-		socket.on('login', (data) => {
-			this.appendMessage([
-				{ type: 'log', body: 'Welcome to Socket.IO Chat – ' },
-				getParticipantsMessage(data)
-			]);
-		});
+      const componentDidMount = function() {
 
-		socket.on('new message', (data) => {
-			this.appendMessage({
-				type: 'message',
-				isTyping: false,
-				userName: data.username,
-				body: data.message
-			});
-		});
+        socket.on('message', (data) => {
+          console.log(data);
+        });
+      }
       
       if (isLoading)
         return html`<${Loading} />`;
