@@ -2,16 +2,22 @@ const { Client } = require('whatsapp-web.js');
 const client = new Client({ puppeteer : { args: ['--no-sandbox'] } });
 const express = require('express');
 const app = express();
-const http = require('http');
+const http = require('http').createServer(app);
 const url = require('url');
-const ws = require('socket.io');
+const io = require('socket.io')(http);
 
 
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
 
-// we need to create our own http server so express and ws can share it.
-const server = http.createServer(app);
-// pass the created server to ws
-const wss = new ws.Server({ server });
+// listen for requests!
+const listener = http.listen(process.env.PORT, function() {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
 
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
@@ -105,32 +111,6 @@ app.get('/chat/:id', async(req, res) => {
     res.status(500).send('Get Chat by Id Error');
     throw new Error(req.url);
   }
-});
-
-wss.on('connection', function connection(ws, request, client) {
-  ws.on('message', function incoming(message) {
-	  console.log('received: %s', message);
-  });
-  
-  ws.on('error', function(e){
-	  console.log('error!: ' + e);
-  });
-});
-
-function broadcast(arg){
-  console.log('Broadcast ' + wss.clients.size);
-  wss.clients.forEach(function each(c) {
-    //console.log(c.readyState + ' ' + WebSocket.OPEN + ' = ' + (c.readyState === WebSocket.OPEN));
-    //if (c.readyState === WebSocket.OPEN) {
-    console.log(JSON.stringify(arg));
-    c.send(arg);
-    //}
-  });
-}
-
-// listen for requests!
-const listener = server.listen(process.env.PORT, function() {
-  console.log('Your app is listening on port ' + listener.address().port);
 });
 
 app.get('/getimage/:id/:msgid', async(req, res) => {
