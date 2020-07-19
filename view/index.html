@@ -20,6 +20,7 @@
       const [items, setItems] = useState([]);
       const [isConnected, setConnected] = useState(false); 
       const [selectedChat, setSelectedChat] = useState(null);
+      const [newMsg, setNewMsg] = useState({});
 
       useEffect(() => {
         socket.on('connect', () => {
@@ -28,18 +29,8 @@
         
         socket.on('message', (data) => {
           console.log(data);
-          findChat(data);
+          setNewMsg(data);
         });
-        
-        function findChat(msg) {
-          console.log(items.length);
-          var find = items.find(c => c.id._serialized == msg.from);
-          if(find) {
-            find.unreadCount++;
-            console.log(findChat);
-            setItems(items);
-          }
-        } 
 
         fetch(`/info`)
           .then(res => res.json())
@@ -61,6 +52,17 @@
       
       if (isConnected)
       {
+        
+        if (newMsg) {
+          console.log(newMsg);
+          var find = items.find(c => c.id._serialized == newMsg.from);
+          if(find) {
+            find.unreadCount++;
+            console.log(findChat);
+            setItems(items);
+          }
+        } 
+        
         if (selectedChat == null) {
           return html`
             <table>
