@@ -10,7 +10,7 @@
     import {
       html, render,
       useState,
-      useEffect,
+      useEffect, useRef
     } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
     const socket = io();
@@ -69,7 +69,7 @@
         }
         
         return html`
-          <button onClick="${() => setSelectedChat(null)}">Back</button>
+          <button onClick="${() => setSelectedChat(null)}" style='position:fixed; top:10px; left:0'>Back</button>
           <${Message} selectedChat="${selectedChat}"/>`;
       }
       return html`<${Disconnect}/>`;
@@ -82,7 +82,7 @@
           <p style='float:right'>${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }</p>
         </div>
         <div>
-          ${chat.lastMsg && chat.lastMsg.body}
+          ${chat.lastMsg && (chat.lastMsg.type == 'chat' ? chat.lastMsg.body : chat.lastMsg.type)}
         </div>
         `;
     
@@ -98,6 +98,7 @@
             setMsgs(data || []);
             selectedChat.lastMsg = data.slice(-1)[0];
             setIsLoading(false);
+          window.scrollTo(0,document.body.scrollHeight);
           });
       }, []);         
       
