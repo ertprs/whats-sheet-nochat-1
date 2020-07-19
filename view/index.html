@@ -20,15 +20,14 @@
       const [items, setItems] = useState([]);
       const [isConnected, setConnected] = useState(false); 
       const [selectedChat, setSelectedChat] = useState(null);
-      const [newMsg, setNewMsg] = useState({});
+      const [newMsg, setNewMsg] = useState(null);
 
       useEffect(() => {
         socket.on('connect', () => {
-          console.log('io');
+          console.log('io connected');
         });
         
         socket.on('message', (data) => {
-          console.log(data);
           setNewMsg(data);
         });
 
@@ -52,14 +51,11 @@
       
       if (isConnected)
       {
-        
         if (newMsg) {
-          console.log(newMsg);
           var find = items.find(c => c.id._serialized == newMsg.from);
           if(find) {
             find.unreadCount++;
-            console.log(findChat);
-            setItems(items);
+            find.lastMsg = newMsg.body;
           }
         } 
         
@@ -82,10 +78,10 @@
         html`
         <div>
           <strong>${chat.name}</strong>${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
-          <p style='float:right'>${new Date(chat.timestamp * 1000).toLocaleDateString()}</p>
+          <p style='float:right'>${new Date(chat.timestamp * 1000) == new? new Date(chat.timestamp * 1000).toLocaleDateString() : new Date(chat.timestamp * 1000).toLocaleTimeString() }</p>
         </div>
         <div>
-          <p style='float:left'>${chat.msgs}</p>
+          ${chat.lastMsg}
         </div>
         `;
     
