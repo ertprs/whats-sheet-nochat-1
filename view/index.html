@@ -28,8 +28,19 @@
         
         socket.on('message', (data) => {
           console.log(data);
+          findChat(data);
         });
         
+        function findChat(msg) {
+          console.log(items.length);
+          var find = items.find(c => c.id._serialized == msg.from);
+          if(find) {
+            find.unreadCount++;
+            console.log(findChat);
+            setItems(items);
+          }
+        } 
+
         fetch(`/info`)
           .then(res => res.json())
           .then(data => {
@@ -44,16 +55,6 @@
               setLoading(false);
         })
       }, []);
-      
-      const findChat = function(chat) {
-        console.log(chat);
-        var find = items.find(c => c.id._serialized == data.from);
-        if(find) {
-          find.unreadCount++;
-          console.log(findChat);
-          setItems(items);
-        }
-      } 
       
       if (isLoading)
         return html`<${Loading} />`;
