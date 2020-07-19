@@ -57,8 +57,6 @@
             find.unreadCount++;
             find.lastMsg = newMsg;
             find.timestamp = newMsg.timestamp;
-            var newChats = listChats.slice(listChats.indexOf(find), 1);
-            setListChats(newChats.unshift(find));
           }
         } 
         
