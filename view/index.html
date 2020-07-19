@@ -28,15 +28,7 @@
         
         socket.on('message', (data) => {
           console.log(data);
-          var findChat = items.find(c => c.id._serialized == data.from);
-          console.log(data.from);
-          console.log(items[1].id._serialized);
-          console.log(findChat);
-          if(findChat) {
-            findChat.unreadCount++;
-            console.log(findChat);
-            setItems(items);
-          }
+          this.findChat(c);
         });
         
         fetch(`/info`)
@@ -53,6 +45,16 @@
               setLoading(false);
         })
       }, []);
+      
+      var findChat = function(chat) {
+        console.log(chat);
+        var find = items.find(c => c.id._serialized == data.from);
+        if(find) {
+          find.unreadCount++;
+          console.log(findChat);
+          setItems(items);
+        }
+      } 
       
       if (isLoading)
         return html`<${Loading} />`;
@@ -103,7 +105,11 @@
       
       const sendMessage = function() {
         fetch(`/send/` + selectedChat.id.user + "/" + txt)
-          .then(() => setTxt(''));
+          .then(() => {
+            msgs.add(txt);
+            setMsgs(msgs);
+            setTxt('');
+          });
         
         return;
         var body = {
@@ -114,7 +120,11 @@
           method: 'POST',
           body: JSON.stringify(body)
         })
-          .then(() => setTxt(''));
+          .then(() => {
+            msgs.add(txt);
+            setMsgs(msgs);
+            setTxt('');
+          });
       };
 
       if (isLoading)
