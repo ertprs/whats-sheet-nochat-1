@@ -26,9 +26,11 @@
           console.log('io');
         });
         
+        var that = this;
         socket.on('message', (data) => {
           console.log(data);
-          this.findChat(c);
+          console.log(that);
+          that.findChat(c);
         });
         
         fetch(`/info`)
@@ -46,7 +48,7 @@
         })
       }, []);
       
-      var findChat = function(chat) {
+      const findChat = function(chat) {
         console.log(chat);
         var find = items.find(c => c.id._serialized == data.from);
         if(find) {
