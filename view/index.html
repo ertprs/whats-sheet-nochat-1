@@ -73,7 +73,7 @@
         if (selectedChat == null) {
           return html`
             <table>
-              <caption>${strClient} connected</caption>
+              <caption>${strClient}</caption>
               ${listChats.map(c => html`
                 <tr onClick="${() => setSelectedChat(c)}"><td><${Chat} chat=${c} /></td></tr>
                   `)}

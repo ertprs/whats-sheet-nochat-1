@@ -5,13 +5,17 @@ const app = express();
 const http = require('http').createServer(app);
 const url = require('url');
 const io = require('socket.io')(http);
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.json({ limit: '50mb' })); // for parsing application/json
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // for parsing       application/x-www-form-urlencoded
 
 io.on('connection', (socket) => {
-  console.log(io.engine.clientsCount + ' user connected');
+  console.log(io.engine.clientsCount + ' client connected');
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log(io.engine.clientsCount + ' client connected');
   });
+  io.emit('client', io.engine.clientsCount + ' client connected');
 });
 
 // listen for requests!
