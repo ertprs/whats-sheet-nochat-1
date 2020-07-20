@@ -117,7 +117,8 @@
               {
                 body: txt,
                 timestamp: parseInt((new Date().getTime() / 1000).toFixed(0)),
-                fromMe: true
+                fromMe: true,
+                type: chat
               };
             msgs.push(newMsg);
             setTxt('');
@@ -148,8 +149,11 @@
             <caption>${selectedChat.name}</caption>
             ${msgs.map(m => html`
               <tr>
-                <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>${m.body} 
-                <sub style='margin-left: 20px'>${new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'})}</sub></td>
+                <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>
+                  <small>${m.fromMe ? 'me' : m.author ? m.author.replace('@c.us','') : selectedChat.name} - ${new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'})}
+                  </small><br/>
+                  ${m.body}
+                </td>
               </tr>
               `)}
           </table>
