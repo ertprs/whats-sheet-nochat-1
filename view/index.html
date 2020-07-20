@@ -123,11 +123,11 @@
             
           </td>
           <td>
-            <div><strong>${chat.name}</strong></div>
-            <div style='width:100%'>${chat.lastMsg && (chat.lastMsg.type == 'chat' ? chat.lastMsg.body.substring(0,40) : '(' + chat.lastMsg.type + ')')}</div>
+            <strong>${chat.name}</strong>
+            <div>${chat.lastMsg && (chat.lastMsg.type == 'chat' ? chat.lastMsg.body.substring(0,40) : '(' + chat.lastMsg.type + ')')}</div>
           </td>
           <td align='right'>
-            <div>${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }</div>
+            ${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }
             <div>${chat.unreadCount == 0 ? ' ' : chat.unreadCount}</div>
           </td>  
         </tr>
