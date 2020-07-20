@@ -41,22 +41,21 @@
         });
       }
       
-      function fetchMsgs() {
-        fetch(`/chat/` + selectedChat.id.user)
+      function fetchMsgs(c) {
+        setLoading(true);
+        fetch(`/chat/` + c.id.user)
           .then(res => res.json())
           .then(data => {
-            setMsgs(data || []);
-            selectedChat.msgs = data;
-            selectedChat.lastMsg = data.slice(-1)[0];
-            setIsLoading(false);
+            c.msgs = data;
+            c.lastMsg = data.slice(-1)[0];
+            setLoading(false);
           });
       }
       
       useEffect(() => {
         socket.on('connect', () => {
           console.log('io connected');
-          if (isConnected)
-            fetchChats();
+          fetchChats();
         });
         
         socket.on('message', (data) => {
@@ -65,15 +64,15 @@
         
         socket.on('client', (data) => {
           setStrClient(data);
-          if(data.endsWith('ready!'))
+          if(data.endsWith('ready!')) {
             setConnected(true);
+            fetchChats();
+          }
         });
         
         socket.on('qr', (data) => {
           setStrQR(data);
         })
-
-        fetchChats();
       }, []);
       
       if (isLoading)
@@ -89,6 +88,7 @@
             find.timestamp = newMsg.timestamp;
             listChats.splice(listChats.indexOf(find), 1);
             listChats.unshift(find);
+            selectedChat.msgs.push(newMsg);
             //setListChats(nC);
             setNewMsg(null);
           }
@@ -99,7 +99,7 @@
             <table>
               <caption>${strClient}</caption>
               ${listChats.map(c => html`
-                <tr onClick="${() => setSelectedChat(c)}"><td><${Chat} chat=${c} /></td></tr>
+                <tr onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"><td><${Chat} chat=${c} /></td></tr>
                   `)}
             </table>`;
         }
@@ -123,19 +123,7 @@
         `;
     
     const Message = ({selectedChat}) => {
-      const[isLoading,setIsLoading] = useState(true);
-      const[msgs,setMsgs] = useState([]);
       const[txt,setTxt] = useState('');
-      
-      useEffect(() => {
-        fetch(`/chat/` + selectedChat.id.user)
-          .then(res => res.json())
-          .then(data => {
-            setMsgs(data || []);
-            selectedChat.lastMsg = data.slice(-1)[0];
-            setIsLoading(false);
-          });
-      }, []);         
       
       const onInputTxt = function(e) {
         setTxt(e.target.value);
@@ -161,20 +149,17 @@
                 fromMe: true,
                 type: 'chat'
               };
-            msgs.push(newMsg);
+            selectedChat.msgs.push(newMsg);
             setTxt('');
             selectedChat.lastMsg = newMsg;
             selectedChat.timestamp = newMsg.timestamp;
           });
       };
-
-      if (isLoading)
-        return html`<${Loading} />`;
       
       return html`
           <table>
             <caption>${selectedChat.name}</caption>
-            ${msgs.map(m => html`
+            ${selectedChat.msgs.map(m => html`
               <tr>
                 <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>
                   <small>${(m.fromMe ? 'me' : m.author ? m.author.replace('@c.us','') : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}))}
