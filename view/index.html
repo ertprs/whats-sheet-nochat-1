@@ -88,8 +88,8 @@
             find.timestamp = newMsg.timestamp;
             listChats.splice(listChats.indexOf(find), 1);
             listChats.unshift(find);
-            selectedChat.msgs.push(newMsg);
-            //setListChats(nC);
+            if (selectedChat)
+              selectedChat.msgs.push(newMsg);
             setNewMsg(null);
           }
         } 
@@ -99,7 +99,7 @@
             <table>
               <caption>${strClient}</caption>
               ${listChats.map(c => html`
-                <tr onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"><td><${Chat} chat=${c} /></td></tr>
+                <tr><td><${Chat} chat=${c} onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"/></td></tr>
                   `)}
             </table>`;
         }
@@ -111,7 +111,7 @@
       return html`<${Disconnect} qr=${strQR}/>`;
     }
 
-    const Chat = ({chat}) =>
+    const Chat = ({chat},{onClick}) =>
         html`
         <div>
           <strong>${chat.name}</strong>${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
