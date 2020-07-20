@@ -99,7 +99,7 @@
             <table>
               <caption>${strClient}</caption>
               ${listChats.map(c => html`
-                <tr onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"><td><${Chat} chat=${c} /></td></tr>
+                <tr><td><${Chat} chat=${c} onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"/></td></tr>
                   `)}
             </table>`;
         }
@@ -111,9 +111,9 @@
       return html`<${Disconnect} qr=${strQR}/>`;
     }
 
-    const Chat = ({chat}) =>
+    const Chat = ({chat},{onClick}) =>
         html`
-        <div>
+        <div onclick='${() => onClick}'>
           <strong>${chat.name}</strong>${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
           <p style='float:right'>${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }</p>
         </div>
