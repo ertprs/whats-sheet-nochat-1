@@ -113,7 +113,11 @@
       const sendMessage = function() {
         fetch(`/send/` + selectedChat.id.user + "/" + txt)
           .then(() => {
-            msgs.push(txt);
+            msgs.push(
+              {
+                body: txt,
+                timestamp: 
+              });
             setTxt('');
           });
         
@@ -127,8 +131,7 @@
           body: JSON.stringify(body)
         })
           .then(() => {
-            msgs.add(txt);
-            setMsgs(msgs);
+            msgs.push(txt);
             setTxt('');
           });
       };
