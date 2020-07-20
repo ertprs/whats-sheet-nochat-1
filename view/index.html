@@ -52,6 +52,11 @@
           });
       }
       
+      const selectChat = function(c) {
+        setSelectedChat(c);
+        fetchMsgs(c);
+      }
+      
       useEffect(() => {
         socket.on('connect', () => {
           console.log('io connected');
@@ -99,7 +104,7 @@
             <table>
               <caption>${strClient}</caption>
               ${listChats.map(c => html`
-                <tr><td><${Chat} chat=${c} onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"/></td></tr>
+                <tr><td><${Chat} chat=${c} func="${selectChat}"/></td></tr>
                   `)}
             </table>`;
         }
@@ -111,9 +116,9 @@
       return html`<${Disconnect} qr=${strQR}/>`;
     }
 
-    const Chat = ({chat},{onClick}) =>
+    const Chat = ({chat},{func}) =>
         html`
-        <div onclick='${() => onClick}'>
+        <div onclick='${func}'>
           <strong>${chat.name}</strong>${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
           <p style='float:right'>${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }</p>
         </div>
