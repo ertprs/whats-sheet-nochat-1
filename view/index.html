@@ -120,12 +120,15 @@
         html`
         <tr onclick='${() => select(chat)}'>
           <td>
-            <strong>${chat.name}</strong><br/>
-            ${chat.lastMsg && (chat.lastMsg.type == 'chat' ? chat.lastMsg.body.substring(0,40) : '(' + chat.lastMsg.type + ')')}
+            
+          </td>
+          <td>
+            <div><strong>${chat.name}</strong></div>
+            <div style='width:100%'>${chat.lastMsg && (chat.lastMsg.type == 'chat' ? chat.lastMsg.body.substring(0,40) : '(' + chat.lastMsg.type + ')')}</div>
           </td>
           <td align='right'>
-            ${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }<br/>
-            ${chat.unreadCount == 0 ? ' ' : chat.unreadCount}
+            <div>${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }</div>
+            <div>${chat.unreadCount == 0 ? ' ' : chat.unreadCount}</div>
           </td>  
         </tr>
         `;
