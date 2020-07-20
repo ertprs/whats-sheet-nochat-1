@@ -28,7 +28,7 @@ const listener = http.listen(process.env.PORT, function() {
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
   console.log('QR RECEIVED', qr);
-  client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
+  //client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
   io.emit('qr', qr);
 });
 
@@ -195,5 +195,16 @@ app.post('/send-image',async function (req, res) {
   catch (e) {
     res.status(500).send('Post Message Error');
     throw new Error(req.url);
+  }
+});
+
+app.get('/contacts', async(req, res) => {
+  try {
+    const contacts = await client.getContacts();
+    res.send(contacts);
+  }
+  catch(e) {
+    res.status(500).send({msg: 'Get Contacts Error!'});
+    console.log(e.message);
   }
 });
