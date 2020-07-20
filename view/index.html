@@ -113,12 +113,16 @@
       const sendMessage = function() {
         fetch(`/send/` + selectedChat.id.user + "/" + txt)
           .then(() => {
-            msgs.push(
+            var newMsg = 
               {
                 body: txt,
-                timestamp: 
-              });
+                timestamp: parseInt((new Date().getTime() / 1000).toFixed(0)),
+                fromMe: true
+              };
+            msgs.push(newMsg);
             setTxt('');
+            selectedChat.lastMsg = newMsg;
+            selectedChat.timestamp = newMsg.timestamp;
           });
         
         return;
