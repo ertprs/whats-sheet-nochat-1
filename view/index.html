@@ -57,9 +57,9 @@
             find.unreadCount++;
             find.lastMsg = newMsg;
             find.timestamp = newMsg.timestamp;
-            var nC = listChats.splice(listChats.indexOf(find), 1);
-            nC.unshift(find);
-            setListChats(nC);
+            listChats.splice(listChats.indexOf(find), 1);
+            listChats.unshift(find);
+            //setListChats(nC);
             setNewMsg(null);
           }
         } 
@@ -113,8 +113,7 @@
       const sendMessage = function() {
         fetch(`/send/` + selectedChat.id.user + "/" + txt)
           .then(() => {
-            msgs.add(txt);
-            setMsgs(msgs);
+            msgs.push(txt);
             setTxt('');
           });
         
