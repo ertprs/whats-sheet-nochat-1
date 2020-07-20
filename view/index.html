@@ -58,9 +58,10 @@
             find.lastMsg = newMsg;
             find.timestamp = newMsg.timestamp;
             var nC = listChats.splice(listChats.indexOf(find), 1);
-            nC = nC.unshift(find);
+            nC.unshift(find);
+            setListChats(nC);
+            newMsg = null;
           }
-          console.log(listChats.findIndex(find));
         } 
         
         if (selectedChat == null) {
@@ -102,7 +103,6 @@
             setMsgs(data || []);
             selectedChat.lastMsg = data.slice(-1)[0];
             setIsLoading(false);
-          window.scrollTo(0,document.body.scrollHeight);
           });
       }, []);         
       
