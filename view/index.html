@@ -10,7 +10,7 @@
     import {
       html, render,
       useState,
-      useEffect, useRef
+      useEffect
     } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
     const socket = io();
@@ -23,10 +23,13 @@
       const [newMsg, setNewMsg] = useState(null);
       const [strClient, setStrClient] = useState('');
       const [cntUnread, setCntUnread] = useState(0);
+      const [strQR, setStrQR] = useState('');
 
       useEffect(() => {
         socket.on('connect', () => {
           console.log('io connected');
+          if (isConnected)
+            fetchChats();
         });
         
         socket.on('message', (data) => {
@@ -36,20 +39,28 @@
         socket.on('client', (data) => {
           setStrClient(data);
         });
-
-        fetch(`/info`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.phone != null) {
-              setConnected(true);
-              fetch(`/chats`)
-                .then(res => res.json())
-                .then(data => setListChats(data || []))
-                .then(() => setLoading(false));
-            }
-            else
-              setLoading(false);
+        
+        socket.on('qr', (data) => {
+          setStrQR(data);
         })
+
+        function fetchChats () {
+          fetch(`/info`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.phone != null) {
+                setConnected(true);
+                fetch(`/chats`)
+                  .then(res => res.json())
+                  .then(data => setListChats(data || []))
+                  .then(() => setLoading(false));
+              }
+              else
+                setLoading(false);
+          });
+        }
+        
+        fetchChats();
       }, []);
       
       if (isLoading)
@@ -84,7 +95,7 @@
           <button onClick="${() => setSelectedChat(null)}" style='position:fixed; top:10px; left:0'>Back</button>
           <${Message} selectedChat="${selectedChat}"/>`;
       }
-      return html`<${Disconnect}/>`;
+      return html`<${Disconnect} qr=${strQR}/>`;
     }
 
     const Chat = ({chat}) =>
@@ -171,11 +182,11 @@
         `;
     }
     
-    const Disconnect = () =>
+    const Disconnect = ({qr}) =>
       html`
         <hr/>
         <h4>Scan QR using Whatsapp on your Phone</h4>
-        <img src='/qr'/>
+        <img src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qr}'/>
       `;
 
     const Loading = () =>

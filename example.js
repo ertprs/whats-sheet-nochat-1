@@ -26,7 +26,8 @@ const listener = http.listen(process.env.PORT, function() {
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
   console.log('QR RECEIVED', qr);
-  client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
+  //client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
+  io.emit('qr', qr);
 });
 
 client.on('ready', () => {
@@ -159,7 +160,6 @@ app.get('/send/:id/:message', function(req, res) {
 
 app.post('/send', function(req, res) {
   try {
-    console.log(req);
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let message = req.body.message;
     res.send(client.sendMessage(number, message));
