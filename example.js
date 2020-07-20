@@ -12,10 +12,12 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // for parsin
 
 io.on('connection', (socket) => {
   console.log(io.engine.clientsCount + ' client connected');
+  io.emit('client', io.engine.clientsCount + ' client connected');
+  
   socket.on('disconnect', () => {
     console.log(io.engine.clientsCount + ' client connected');
+    io.emit('client', io.engine.clientsCount + ' client connected');
   });
-  io.emit('client', io.engine.clientsCount + ' client connected');
 });
 
 // listen for requests!
@@ -32,6 +34,7 @@ client.on('qr', (qr) => {
 
 client.on('ready', () => {
   console.log('Client is ready!');
+  io.emit('client', 'Client is ready!');
 });
 
 client.initialize();
@@ -160,11 +163,13 @@ app.get('/send/:id/:message', function(req, res) {
 
 app.post('/send', function(req, res) {
   try {
+    console.log(JSON.stringify(req.body));
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let message = req.body.message;
     res.send(client.sendMessage(number, message));
   }
   catch(e) {
+    console.error(e);
     res.status(500).send('Post Message Error');
     throw new Error(req.url);
   }
