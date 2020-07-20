@@ -128,7 +128,7 @@
           </td>
           <td align='right'>
             ${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }
-            <div>${chat.unreadCount == 0 ? ' ' : chat.unreadCount}</div>
+            <div>${chat.unreadCount > 0 && chat.unreadCount}</div>
           </td>  
         </tr>
         `;
