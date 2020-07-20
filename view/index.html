@@ -52,7 +52,7 @@
           });
       }
       
-      const selectChat = function(c) {
+      const selectChat = (c) => {
         setSelectedChat(c);
         fetchMsgs(c);
       }
@@ -104,7 +104,7 @@
             <table>
               <caption>${strClient}</caption>
               ${listChats.map(c => html`
-                <tr><td><${Chat} chat=${c} func="${selectChat}"/></td></tr>
+                <${Chat} chat=${c} select="${selectChat}"/>
                   `)}
             </table>`;
         }
@@ -116,15 +116,21 @@
       return html`<${Disconnect} qr=${strQR}/>`;
     }
 
-    const Chat = ({chat},{func}) =>
+    const Chat = ({chat,select}) =>
         html`
-        <div onclick='${func}'>
-          <strong>${chat.name}</strong>${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
-          <p style='float:right'>${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }</p>
-        </div>
-        <div>
-          ${chat.lastMsg && (chat.lastMsg.type == 'chat' ? chat.lastMsg.body.substring(0,40) : '(' + chat.lastMsg.type + ')')}
-        </div>
+        <tr onclick='${() => select(chat)}'>
+          <td>
+            <strong>${chat.name}</strong>
+            ${chat.lastMsg && (chat.lastMsg.type == 'chat' ? chat.lastMsg.body.substring(0,40) : '(' + chat.lastMsg.type + ')')}
+          </td>
+          <td>
+            ${new Date(chat.timestamp * 1000) > new Date(new Date().setDate(new Date().getDate()-1)) ? new Date(chat.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}) : new Date(chat.timestamp * 1000).toLocaleDateString() }
+            ${chat.unreadCount > 0 && ' - ' + chat.unreadCount}  
+          </td>
+        
+        
+          
+        </tr>
         `;
     
     const Message = ({selectedChat}) => {
