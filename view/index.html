@@ -21,6 +21,8 @@
       const [isConnected, setConnected] = useState(false); 
       const [selectedChat, setSelectedChat] = useState(null);
       const [newMsg, setNewMsg] = useState(null);
+      const [strClient, setStrClient] = useState('');
+      const [cntUnread, setCntUnread] = useState(0);
 
       useEffect(() => {
         socket.on('connect', () => {
@@ -29,6 +31,10 @@
         
         socket.on('message', (data) => {
           setNewMsg(data);
+        });
+        
+        socket.on('client', (data) => {
+          setStrClient(data);
         });
 
         fetch(`/info`)
@@ -67,6 +73,7 @@
         if (selectedChat == null) {
           return html`
             <table>
+              <caption>${strClient} connected</caption>
               ${listChats.map(c => html`
                 <tr onClick="${() => setSelectedChat(c)}"><td><${Chat} chat=${c} /></td></tr>
                   `)}
@@ -118,7 +125,7 @@
                 body: txt,
                 timestamp: parseInt((new Date().getTime() / 1000).toFixed(0)),
                 fromMe: true,
-                type: chat
+                type: 'chat'
               };
             msgs.push(newMsg);
             setTxt('');
@@ -150,7 +157,7 @@
             ${msgs.map(m => html`
               <tr>
                 <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>
-                  <small>${m.fromMe ? 'me' : m.author ? m.author.replace('@c.us','') : selectedChat.name} -$ {new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'})}
+                  <small>${(m.fromMe ? 'me' : m.author ? m.author.replace('@c.us','') : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: 'false'}))}
                   </small><br/>
                   ${m.body}
                 </td>
