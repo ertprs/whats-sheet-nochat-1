@@ -99,7 +99,7 @@
             <table>
               <caption>${strClient}</caption>
               ${listChats.map(c => html`
-                <tr><td><${Chat} chat=${c} onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"/></td></tr>
+                <tr onClick="${() => {setSelectedChat(c);fetchMsgs(c);}}"><td><${Chat} chat=${c} /></td></tr>
                   `)}
             </table>`;
         }
@@ -111,7 +111,7 @@
       return html`<${Disconnect} qr=${strQR}/>`;
     }
 
-    const Chat = ({chat},{onClick}) =>
+    const Chat = ({chat}) =>
         html`
         <div>
           <strong>${chat.name}</strong>${chat.unreadCount > 0 && ' - ' + chat.unreadCount}
