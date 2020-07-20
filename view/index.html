@@ -129,7 +129,14 @@
       }
       
       const sendMessage = function() {
-        fetch(`/send/` + selectedChat.id.user + "/" + txt)
+        var body = {
+          number: selectedChat.id.user,
+          message: txt
+        };
+        fetch(`/send`, {
+          method: 'POST',
+          body: JSON.stringify(body)
+        })
           .then(() => {
             var newMsg = 
               {
@@ -142,20 +149,6 @@
             setTxt('');
             selectedChat.lastMsg = newMsg;
             selectedChat.timestamp = newMsg.timestamp;
-          });
-        
-        return;
-        var body = {
-          number: selectedChat.id.user,
-          message: txt
-        };
-        fetch(`/send`, {
-          method: 'POST',
-          body: JSON.stringify(body)
-        })
-          .then(() => {
-            msgs.push(txt);
-            setTxt('');
           });
       };
 
@@ -186,7 +179,8 @@
       html`
         <hr/>
         <h4>Scan QR using Whatsapp on your Phone</h4>
-        <img src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qr}'/>
+        <img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>
+        <img src='/qr'/>
       `;
 
     const Loading = () =>
