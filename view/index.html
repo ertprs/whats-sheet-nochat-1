@@ -120,6 +120,11 @@
             }
             setNewMsg(null);
           }
+          else {
+            find = {
+              
+            }
+          }
           document.title = document.title.substring(0, document.title.indexOf('-')) + ' - ' + (listChats.filter(c => c.unreadCount > 0).length);
         } 
         
@@ -165,7 +170,7 @@
         messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
       };
       
-      useEffect(scrollToBottom, [selectedChat.msgs]);
+      useEffect(scrollToBottom);
       
       const onInputTxt = function(e) {
         setTxt(e.target.value);
