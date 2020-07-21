@@ -189,13 +189,18 @@
       };
       
       const fetchImage = function(m) {
+        if (m.type != 'image')
+          return '';
+        
         const [url,setUrl] = useState('');
           
-        fetch('/getimage/' + selectedChat.id.user + '/' + m.id.id)
-          .then(res => res.json())
-          .then(data => setUrl(data.data)); 
+        useEffect(() => {
+          fetch('/getimage/' + selectedChat.id.user + '/' + m.id.id)
+            .then(res => res.json())
+            .then(data => setUrl(data.data));
+        }, []);
         
-        return html`<img src='data:image/jpg;base64,${url}' alt='${m.id.id}'/>`;
+         return html`<img src='data:image/jpg;base64,${url}' alt='${m.id.id}'/>`;
       };
       
       return html`
@@ -208,7 +213,7 @@
                     <small>${(m.fromMe ? 'me' : m.author ? m.authorName : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
                     </small><br/>
                     <span style='white-space: pre-line;'>${m.body}</span>
-                    ${m.type == 'image' && fetchImage(m)}
+                    ${fetchImage(m)}
                   </td>
                 </tr>
                 `)}
