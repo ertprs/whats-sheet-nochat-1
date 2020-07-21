@@ -55,7 +55,7 @@
             setLoading(false);
             c.msgs.forEach(m => {
               var fC = contacts.find(ct => ct.id._serialized == m.author);
-              m.authorName = (fC ? (fC.name ? fC.name : (fc.pushname ? fC.pushname : m.author)) : m.author); 
+              m.authorName = (fC ? (fC.name ? fC.name : (fC.pushname ? fC.pushname : m.author)) : m.author); 
             });
           });
       }
@@ -212,7 +212,7 @@
                 <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>
                   <small>${(m.fromMe ? 'me' : m.author ? m.authorName : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
                   </small><br/>
-                  ${m.body}
+                  <span style='white-space: pre-line;'>${m.body}</span>
                   ${fetchImage(m)}
                 </td>
               </tr>
