@@ -37,10 +37,10 @@
                   setLoading(false);
                   document.title += ' - ' + (data.filter(c => c.unreadCount > 0).length);
                 });
+              fetchContacts();
             }
             else
               setLoading(false);
-            fetchContacts
         });
       }
       
@@ -183,10 +183,7 @@
                 fromMe: true,
                 type: 'chat'
               };
-            //selectedChat.msgs.push(newMsg);
             setTxt('');
-            //selectedChat.lastMsg = newMsg;
-            //selectedChat.timestamp = newMsg.timestamp;
           });
       };
       
@@ -200,7 +197,8 @@
           .then(data => setUrl(data.data)); 
         
         return html`<img src='data:image/jpg;base64,${url}' alt='${m.id.id}'/>`;
-      };     
+      };
+      
       return html`
           <table>
             <caption>${selectedChat.name}</caption>
