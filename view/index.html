@@ -189,10 +189,17 @@
           });
       };
       
-      const fetchImage = function(id) {
-        fetch('/getimage/' + selectedChat.id.user + '/' + id)
+      const fetchImage = function(m) {
+        if (m.type != 'image')
+          return '';
+          
+        await fetch('/getimage/' + selectedChat.id.user + '/' + m.id.id)
           .then(res => res.json())
-          .then(data => )
+          .then(data => {
+            m.url = 'data:image/jpg;base64,' + data.data
+          });
+        
+        return html`<img src='data:image/jpg;base64,${m.url}' alt='${m.id.id}'/>`;
       };     
       return html`
           <table>
@@ -203,7 +210,7 @@
                   <small>${(m.fromMe ? 'me' : m.author ? m.author.replace('@c.us','') : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
                   </small><br/>
                   ${m.body}
-                  ${(m.type == 'image') && html`<img src='${fetchImage(m.id.id)}' />`}
+                  ${fetchImage(m)}
                 </td>
               </tr>
               `)}
