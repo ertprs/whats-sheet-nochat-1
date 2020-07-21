@@ -39,9 +39,9 @@ client.on('ready', () => {
 
 client.initialize();
 
-client.on('message', msg => {
-  io.emit('message', msg);
-});
+// client.on('message', msg => {
+//   io.emit('message', msg);
+// });
 
 client.on('message_create', (msg) => {
   // Fired on all message creations, including your own
@@ -188,7 +188,6 @@ app.get('/send/:id/:message', function(req, res) {
 
 app.post('/send', function(req, res) {
   try {
-    console.log(JSON.stringify(req.body));
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let message = req.body.message;
     res.send(client.sendMessage(number, message));

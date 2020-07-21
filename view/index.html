@@ -22,7 +22,6 @@
       const [selectedChat, setSelectedChat] = useState(null);
       const [newMsg, setNewMsg] = useState(null);
       const [strClient, setStrClient] = useState('');
-      const [cntUnread, setCntUnread] = useState(0);
       const [strQR, setStrQR] = useState('');
 
       function fetchChats() {
@@ -116,6 +115,7 @@
             }
             setNewMsg(null);
           }
+          document.title = document.title.substring(0, document.title.indexOf('-')) + ' - ' + (listChats.filter(c => c.unreadCount > 0).length);
         } 
         
         if (selectedChat == null) {
