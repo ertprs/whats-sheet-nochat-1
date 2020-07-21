@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="height:100%">
+<html lang="en">
   <title>WhatsApp Web Multi</title>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -233,17 +233,17 @@
     
     const Header = () =>
       html`
-      <div style='overflow: hidden; position: fixed; top: 0; left:0; width: 100%; height:10vh; background-color: darkseagreen'>
+      <div style='overflow: hidden; position: fixed; top: 0; left:0; width: 100%; height:8vh; background-color: darkseagreen'>
         <center><h2 style='margin-top:1rem'>WhatsApp Web Multi</h2></center>
       </div>`;
 
     render(html`
       <${Header}/>
-      <div style='position:absolute;top:10vh;bottom:0px;width:100%;height:90vh;overflow:auto'>
+      <div style='position:absolute;top:8vh;bottom:0px;width:100%;height:92vh;overflow:auto'>
         <${App}/>
       </div>`
       , document.body);
   </script>
-  <body style="height:100vh;">
+  <body style="height:100vh;padding:0;margin:0">
   </body>
 </html>
