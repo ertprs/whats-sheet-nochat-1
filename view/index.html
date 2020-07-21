@@ -190,16 +190,15 @@
       };
       
       const fetchImage = function(m) {
+        const [url,setUrl] = useState('');
         if (m.type != 'image')
           return '';
           
-        await fetch('/getimage/' + selectedChat.id.user + '/' + m.id.id)
+        fetch('/getimage/' + selectedChat.id.user + '/' + m.id.id)
           .then(res => res.json())
-          .then(data => {
-            m.url = 'data:image/jpg;base64,' + data.data
-          });
+          .then(data => setUrl(data.data)); 
         
-        return html`<img src='data:image/jpg;base64,${m.url}' alt='${m.id.id}'/>`;
+        return html`<img src='data:image/jpg;base64,${url}' alt='${m.id.id}'/>`;
       };     
       return html`
           <table>
