@@ -151,7 +151,7 @@ app.get('/getimage/:id/:msgid', async(req, res) => {
     let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
     let msgId = req.params.msgid;
     await client.getChatById(number).then(async(c)=>{
-      let searchOptions = { limit: Infinity };
+      let searchOptions = { limit: 100 };
       await c.fetchMessages(searchOptions).then(messages=>{
         messages.forEach(async (msg, index)=>{
           if(msg.id.id==msgId){

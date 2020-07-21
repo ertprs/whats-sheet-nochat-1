@@ -40,6 +40,7 @@
             }
             else
               setLoading(false);
+            fetchContacts
         });
       }
       
@@ -223,7 +224,6 @@
     
     const Disconnect = ({qr}) =>
       html`
-        <hr/>
         <h4>Scan QR using Whatsapp on your Phone</h4>
         <img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>
         <img src='/qr'/>
@@ -240,7 +240,7 @@
 
     render(html`
       <${Header}/>
-      <div style='margin-top:40px;margin-bottom:40px'>
+      <div style='margin-top:50px;margin-bottom:40px'>
         <${App}/>
       </div>`
       , document.body);
