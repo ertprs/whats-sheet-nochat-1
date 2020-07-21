@@ -23,6 +23,7 @@
       const [newMsg, setNewMsg] = useState(null);
       const [strClient, setStrClient] = useState('');
       const [strQR, setStrQR] = useState('');
+      const [contacts, setContacts] = useState([]);
 
       function fetchChats() {
         fetch(`/info`)
@@ -52,7 +53,10 @@
             c.msgs = data;
             c.lastMsg = data.slice(-1)[0];
             setLoading(false);
-            
+            c.msgs.forEach(m => {
+              var fC = contacts.find(ct => ct.id._serialized == m.author);
+              m.authorName = (fC ? fC.name : m.author); 
+            });
           });
       }
       
@@ -206,7 +210,7 @@
             ${selectedChat.msgs.map(m => html`
               <tr>
                 <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>
-                  <small>${(m.fromMe ? 'me' : m.author ? m.author.replace('@c.us','') : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
+                  <small>${(m.fromMe ? 'me' : m.author ? m.authorName : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
                   </small><br/>
                   ${m.body}
                   ${fetchImage(m)}
