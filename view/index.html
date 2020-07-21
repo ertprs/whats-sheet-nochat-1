@@ -118,13 +118,21 @@
               if (selectedChat && selectedChat.id._serialized == find.id._serialized)
                 selectedChat.msgs.push(newMsg);
             }
-            setNewMsg(null);
           }
           else {
-            find = {
-              
-            }
+            var newChat = {
+              id: {
+                user: (newMsg.fromMe ? newMsg.to : newMsg.from).replace('@g.us','').replace('@c.us',''),
+                _serialized: newMsg.fromMe ? newMsg.to : newMsg.from
+              },
+              name: (newMsg.fromMe ? newMsg.to : newMsg.from).replace('@g.us','').replace('@c.us',''),,
+              lastMsg: newMsg,
+              timestamp: newMsg.timestamp,
+              unreadCount: newMsg.fromMe ? 0 : 1
+            };
+            listChats.unshift(newChat);
           }
+          setNewMsg(null);
           document.title = document.title.substring(0, document.title.indexOf('-')) + ' - ' + (listChats.filter(c => c.unreadCount > 0).length);
         } 
         
