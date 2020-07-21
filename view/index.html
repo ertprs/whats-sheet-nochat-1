@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
   </head>
   <script type="module">
-    import { html, render, useState, useEffect } from 'https://unpkg.com/htm/preact/standalone.module.js'
+    import { html, render, useState, useEffect, useRef } from 'https://unpkg.com/htm/preact/standalone.module.js'
 
     const socket = io();
     
@@ -160,6 +160,13 @@
     const Message = ({selectedChat}) => {
       const[txt,setTxt] = useState('');
       
+      const messagesEndRef = useRef(null);
+      const scrollToBottom = () => {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      };
+      
+      useEffect(scrollToBottom, [selectedChat.msgs]);
+      
       const onInputTxt = function(e) {
         setTxt(e.target.value);
       }
@@ -200,7 +207,7 @@
             .then(data => setUrl(data.data));
         }, []);
         
-         return html`<img src='data:image/jpg;base64,${url}' alt='${m.id.id}'/>`;
+        return html`<img src='data:image/jpg;base64,${url}' alt='${m.id.id}'/>`;
       };
       
       return html`
@@ -218,6 +225,7 @@
                 </tr>
                 `)}
             </table>
+            <div ref=${messagesEndRef} />
           </div>
           <div style='overflow: hidden; position: fixed; bottom: 0; left:0; width: 100%; max-width:600px; height:10vh; background-color: darkseagreen'>
             <textarea style="width:80%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
