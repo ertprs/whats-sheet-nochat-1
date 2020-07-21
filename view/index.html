@@ -111,7 +111,7 @@
               find.timestamp = newMsg.timestamp;
               listChats.splice(listChats.indexOf(find), 1);
               listChats.unshift(find);
-              if (selectedChat)
+              if (selectedChat && selectedChat.id._serialized == find.id._serialized)
                 selectedChat.msgs.push(newMsg);
             }
             setNewMsg(null);
@@ -179,10 +179,10 @@
                 fromMe: true,
                 type: 'chat'
               };
-            selectedChat.msgs.push(newMsg);
+            //selectedChat.msgs.push(newMsg);
             setTxt('');
-            selectedChat.lastMsg = newMsg;
-            selectedChat.timestamp = newMsg.timestamp;
+            //selectedChat.lastMsg = newMsg;
+            //selectedChat.timestamp = newMsg.timestamp;
           });
       };
       
