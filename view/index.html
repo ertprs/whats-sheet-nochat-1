@@ -190,8 +190,6 @@
       
       const fetchImage = function(m) {
         const [url,setUrl] = useState('');
-        if (m.type != 'image')
-          return '';
           
         fetch('/getimage/' + selectedChat.id.user + '/' + m.id.id)
           .then(res => res.json())
@@ -202,19 +200,19 @@
       
       return html`
           <div style='height:81vh;overflow:auto'>
-          <table>
-            <caption>${selectedChat.name}</caption>
-            ${selectedChat.msgs.map(m => html`
-              <tr>
-                <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>
-                  <small>${(m.fromMe ? 'me' : m.author ? m.authorName : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
-                  </small><br/>
-                  <span style='white-space: pre-line;'>${m.body}</span>
-                  ${fetchImage(m)}
-                </td>
-              </tr>
-              `)}
-          </table>
+            <table>
+              <caption>${selectedChat.name}</caption>
+              ${selectedChat.msgs.map(m => html`
+                <tr>
+                  <td align='${m.fromMe ? 'right' : 'left'}' style='background-color: ${m.fromMe ? 'white' : 'lightgrey'}'>
+                    <small>${(m.fromMe ? 'me' : m.author ? m.authorName : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
+                    </small><br/>
+                    <span style='white-space: pre-line;'>${m.body}</span>
+                    ${m.type == 'image' && fetchImage(m)}
+                  </td>
+                </tr>
+                `)}
+            </table>
           </div>
           <div style='overflow: hidden; position: fixed; bottom: 0; left:0; width: 100%; max-width:600px; height:10vh; background-color: darkseagreen'>
             <textarea style="width:80%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
