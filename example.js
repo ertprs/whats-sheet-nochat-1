@@ -28,7 +28,7 @@ const listener = http.listen(process.env.PORT, function() {
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
   console.log('QR RECEIVED', qr);
-  //client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
+  client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
   io.emit('qr', qr);
 });
 

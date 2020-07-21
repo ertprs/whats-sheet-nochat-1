@@ -52,6 +52,12 @@
           });
       }
       
+      function fetchContacts() {
+        fetch(`/contacts`)
+          .then(res => res.json())
+          .then(data => setContacts(data || []));
+      }
+      
       const selectChat = (c) => {
         setSelectedChat(c);
         fetchMsgs(c);
@@ -192,7 +198,7 @@
         <hr/>
         <h4>Scan QR using Whatsapp on your Phone</h4>
         <img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>
-        <!--<img src='/qr'/>-->
+        <img src='/qr'/>
       `;
 
     const Loading = () =>
