@@ -43,6 +43,31 @@ client.on('message', msg => {
   io.emit('message', msg);
 });
 
+client.on('message_create', (msg) => {
+  // Fired on all message creations, including your own
+  io.emit('message', msg);
+  if (msg.fromMe) {
+    // do stuff here
+  }
+});
+
+client.on('message_ack', (msg, ack) => {
+  /*
+      == ACK VALUES ==
+      ACK_ERROR: -1
+      ACK_PENDING: 0
+      ACK_SERVER: 1
+      ACK_DEVICE: 2
+      ACK_READ: 3
+      ACK_PLAYED: 4
+  */
+
+  if(ack == 3) {
+    // The message was read
+    io.emit('message_read', msg);
+  }
+});
+
 app.get('/', async(req, res) => {
   res.sendFile(__dirname + '/view/index.html');
 });
