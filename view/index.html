@@ -189,6 +189,11 @@
           });
       };
       
+      const fetchImage = function(id) {
+        fetch('/getimage/' + selectedChat.id.user + '/' + id)
+          .then(res => res.json())
+          .then(data => )
+      };     
       return html`
           <table>
             <caption>${selectedChat.name}</caption>
@@ -198,7 +203,7 @@
                   <small>${(m.fromMe ? 'me' : m.author ? m.author.replace('@c.us','') : selectedChat.name) + ' - ' + (new Date(m.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: false}))}
                   </small><br/>
                   ${m.body}
-                  ${(m.type == 'image') && html`<img src='data:image/jpg;base64,' + /getimage/${m.id.remote.user}/${m.id.id}' />`}
+                  ${(m.type == 'image') && html`<img src='${fetchImage(m.id.id)}' />`}
                 </td>
               </tr>
               `)}
