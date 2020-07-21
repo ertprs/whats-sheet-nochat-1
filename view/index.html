@@ -73,6 +73,10 @@
           setNewMsg(data);
         });
         
+        socket.on('message_read', (data) => {
+          setNewMsg(data);
+        });
+        
         socket.on('client', (data) => {
           setStrClient(data);
           if(data.endsWith('ready!')) {
@@ -92,15 +96,24 @@
       if (isConnected)
       {
         if (newMsg) {
-          var find = listChats.find(c => c.id._serialized == newMsg.from);
+          var find = listChats.find(c => c.id._serialized == (newMsg.fromMe ? newMsg.to : newMsg.from));
           if(find) {
-            find.unreadCount++;
-            find.lastMsg = newMsg;
-            find.timestamp = newMsg.timestamp;
-            listChats.splice(listChats.indexOf(find), 1);
-            listChats.unshift(find);
-            if (selectedChat)
-              selectedChat.msgs.push(newMsg);
+            if (newMsg.ack == 3) {
+              find.unreadCount = 0;
+            }
+            else
+            {
+              if (newMsg.fromMe)
+                find.unreadCount = 0;
+              else
+                find.unreadCount++;
+              find.lastMsg = newMsg;
+              find.timestamp = newMsg.timestamp;
+              listChats.splice(listChats.indexOf(find), 1);
+              listChats.unshift(find);
+              if (selectedChat)
+                selectedChat.msgs.push(newMsg);
+            }
             setNewMsg(null);
           }
         } 
