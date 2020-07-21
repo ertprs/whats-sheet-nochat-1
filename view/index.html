@@ -55,7 +55,7 @@
             setLoading(false);
             c.msgs.forEach(m => {
               var fC = contacts.find(ct => ct.id._serialized == m.author);
-              m.authorName = (fC ? fC.name : m.author); 
+              m.authorName = (fC ? (fC.name ? fC.name : (fc.pushname ? fC.pushname : m.author)) : m.author); 
             });
           });
       }
