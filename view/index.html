@@ -239,7 +239,7 @@
             </table>
             <div ref=${messagesEndRef} />
           </div>
-          <div style='overflow: hidden; position: fixed; bottom: 0; left:0; width: 100%; max-width:600px; height:10vh; background-color: darkseagreen'>
+          <div style='overflow: hidden; position: fixed; bottom: 0; width: 100%; max-width:600px; height:8vh; background-color: darkseagreen; margin:0 auto'>
             <button onClick="${() => select(null)}">Back</button>
             <textarea style="width:70%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
             <button style='float:right' onClick='${sendMessage}'>Send</button>
@@ -259,17 +259,17 @@
     
     const Header = () =>
       html`
-      <div style='overflow: hidden; position: fixed; top: 0; left:0; width: 100%; height:9vh; background-color: darkseagreen'>
+      <div style='position: fixed; top: 0; width: 100%; max-width:600px;height:9vh; background-color: darkseagreen; overflow: hidden; margin:0px auto'>
         <center><h2 style='margin-top:1rem'>WhatsApp Web Multi</h2></center>
       </div>`;
 
     render(html`
       <${Header}/>
-      <div style='position:absolute;top:9vh;bottom:0px;width:100%;height:91vh;overflow:auto'>
+      <div style='position:absolute;top:9vh;bottom:0px;width:100%;max-width:600px;height:91vh;overflow:auto;margin:0px auto'>
         <${App}/>
       </div>`
       , document.body);
   </script>
-  <body style="height:100vh;padding:0;margin:0;width:100vh;max-width:600px">
+  <body style="height:100vh;padding:0;margin:0 auto">
   </body>
 </html>
