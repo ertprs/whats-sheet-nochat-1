@@ -223,7 +223,7 @@
       };
       
       return html`
-          <div style='height:81vh;overflow:auto'>
+          <div style='height:85vh;overflow:auto'>
             <table>
               <caption>${selectedChat.name}</caption>
               ${selectedChat.msgs.map(m => html`
@@ -239,8 +239,8 @@
             </table>
             <div ref=${messagesEndRef} />
           </div>
-          <div style='overflow: hidden; position: fixed; bottom: 0; width: 100%; max-width:600px; height:8vh; background-color: darkseagreen; margin:0 auto'>
-            <button onClick="${() => select(null)}">Back</button>
+          <div style='overflow: hidden; position: fixed; bottom: 0; width: 100%; max-width:600px; height:6vh; background-color: darkseagreen; margin:0 auto'>
+            <button style='float:left' onClick="${() => select(null)}">Back</button>
             <textarea style="width:70%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
             <button style='float:right' onClick='${sendMessage}'>Send</button>
           </div>
