@@ -64,7 +64,7 @@
       
       const selectChat = (c) => {
         setSelectedChat(c);
-        fetchMsgs(c);
+        if(c) fetchMsgs(c);
       }
       
       useEffect(() => {
@@ -147,8 +147,7 @@
         }
         
         return html`
-          <button onClick="${() => setSelectedChat(null)}" style='position:fixed; top:10px; left:0'>Back</button>
-          <${Message} selectedChat="${selectedChat}"/>`;
+          <${Message} selectedChat="${selectedChat}" select="${selectChat}"/>`;
       }
       return html`<${Disconnect} qr=${strQR}/>`;
     }
@@ -170,7 +169,7 @@
         </tr>
         `;
     
-    const Message = ({selectedChat}) => {
+    const Message = ({selectedChat,select}) => {
       const[txt,setTxt] = useState('');
       
       const messagesEndRef = useRef(null);
@@ -241,7 +240,8 @@
             <div ref=${messagesEndRef} />
           </div>
           <div style='overflow: hidden; position: fixed; bottom: 0; left:0; width: 100%; max-width:600px; height:10vh; background-color: darkseagreen'>
-            <textarea style="width:80%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
+            <button onClick="${() => select(null)}">Back</button>
+            <textarea style="width:70%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
             <button style='float:right' onClick='${sendMessage}'>Send</button>
           </div>
         `;
@@ -250,8 +250,8 @@
     const Disconnect = ({qr}) =>
       html`
         <h4>Scan QR using Whatsapp on your Phone</h4>
-        <img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>
-        <img src='/qr'/>
+        ${qr} && <img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>
+        <!--<img src='/qr'/>-->
       `;
 
     const Loading = () =>
@@ -270,6 +270,6 @@
       </div>`
       , document.body);
   </script>
-  <body style="height:100vh;padding:0;margin:0">
+  <body style="height:100vh;padding:0;margin:0;width:100vh;max-width:600px">
   </body>
 </html>
