@@ -1,5 +1,5 @@
 # whatsapp-multi
-A WhatsApp Web Multi clients that can be opened on multiple device browsers
+A WhatsApp Web Multi clients that can be accessed simultaneously on multiple device browsers
 
 **NOTE:** I can't guarantee you will not be blocked by using this method, although it has worked for me. WhatsApp does not allow bots or unofficial clients on their platform, so this shouldn't be considered totally safe.
 
