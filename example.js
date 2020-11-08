@@ -5,6 +5,7 @@ const http = require("http").createServer(app);
 const url = require("url");
 const io = require("socket.io")(http);
 const bodyParser = require("body-parser");
+const fs = require('fs');
 const SESSION_FILE_PATH = "./whatsapp-session.json";
 
 let sessionCfg;
@@ -26,7 +27,8 @@ const client = new Client({
       "--disable-gpu"
     ]
   },
-  session: sessionCfg
+  session: sessionCfg,
+  restartOnAuthFail: true, // related problem solution
 });
 client.initialize();
 
@@ -61,8 +63,8 @@ client.on("ready", () => {
 });
 
 client.on("authenticated", session => {
-  socket.emit("authenticated", "Whatsapp is authenticated!");
-  socket.emit("message", "Whatsapp is authenticated!");
+  io.emit("authenticated", "Whatsapp is authenticated!");
+  io.emit("message", "Whatsapp is authenticated!");
   console.log("AUTHENTICATED", session);
   sessionCfg = session;
   fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function(err) {
@@ -73,11 +75,11 @@ client.on("authenticated", session => {
 });
 
 client.on("auth_failure", function(session) {
-  socket.emit("message", "Auth failure, restarting...");
+  io.emit("message", "Auth failure, restarting...");
 });
 
 client.on("disconnected", reason => {
-  socket.emit("message", "Whatsapp is disconnected!");
+  io.emit("message", "Whatsapp is disconnected!");
   client.destroy();
   client.initialize();
 });
