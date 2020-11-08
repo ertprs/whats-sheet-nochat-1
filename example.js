@@ -54,6 +54,10 @@ client.initialize();
 client.on('change_state',(reason)=>{
   console.log(reason);
   io.emit('client', reason);
+  if(reason === 'UNPAIRED'){
+    client.destroy();
+    client.initialize();
+  }
 });
 client.on('disconnected', (reason) => {
   console.log(reason);
