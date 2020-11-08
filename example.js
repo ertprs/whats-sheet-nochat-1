@@ -25,7 +25,8 @@ const client = new Client({ puppeteer: {
     '--disable-gpu'
   ],
 }, 
-session: sessionCfg 
+session: sessionCfg,
+restartOnAuthFail: true
 });
 
 app.use(bodyParser.json({ limit: '50mb' })); // for parsing application/json
