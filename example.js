@@ -6,24 +6,35 @@ const http = require('http').createServer(app);
 const url = require('url');
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
-const SESSION_FILE_PATH = './session.json';
+const SESSION_FILE_PATH = './whatsapp-session.json';
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionCfg = require(SESSION_FILE_PATH);
 }
 
-const client = new Client({ puppeteer: { headless: false }, session: sessionCfg });
+const client = new Client({ puppeteer: { 
+  headless: true,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-accelerated-2d-canvas',
+    '--no-first-run',
+    '--no-zygote',
+    '--single-process', // <- this one doesn't works in Windows
+    '--disable-gpu'
+  ],}, session: sessionCfg });
 
 app.use(bodyParser.json({ limit: '50mb' })); // for parsing application/json
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // for parsing       application/x-www-form-urlencoded
 
 io.on('connection', (socket) => {
   console.log(io.engine.clientsCount + ' client connected');
-  io.emit('client', io.engine.clientsCount + ' client connected');
+  io.emit('client', 'client connected');
   
   socket.on('disconnect', () => {
     console.log(io.engine.clientsCount + ' client connected');
-    io.emit('client', io.engine.clientsCount + ' client connected');
+    io.emit('client', 'client connected');
   });
 });
 
@@ -37,6 +48,28 @@ client.on('qr', (qr) => {
   console.log('QR RECEIVED', qr);
   client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
   io.emit('qr', qr);
+});
+
+client.on('authenticated', (session) => {
+    console.log('AUTHENTICATED', session);
+    sessionCfg=session;
+    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
+        if (err) {
+            console.error(err);
+        }
+    });
+});
+
+client.on('auth_failure', msg => {
+    // Fired if session restore was unsuccessfull
+    console.error('AUTHENTICATION FAILURE', msg);
+});
+
+client.on('disconnected', (reason) => {
+    console.log('Client was logged out', reason);
+  io.emit('client', reason);
+      client.destroy();
+    client.initialize();
 });
 
 client.on('ready', () => {
