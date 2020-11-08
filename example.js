@@ -1,5 +1,14 @@
 const { Client } = require('whatsapp-web.js');
-const client = new Client({ puppeteer : { args: ['--no-sandbox'] } });
+const client = new Client({ puppeteer : { args: [
+  '--no-sandbox',
+  '--disable-setuid-sandbox',
+  '--disable-dev-shm-usage',
+  '--disable-accelerated-2d-canvas',
+  '--no-first-run',
+  '--no-zygote',
+  '--single-process', // <- this one doesn't works in Windows
+  '--disable-gpu'
+] } });
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
@@ -27,9 +36,14 @@ const listener = http.listen(process.env.PORT, function() {
 
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
+  try{
   console.log('QR RECEIVED', qr);
   client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
   io.emit('qr', qr);
+  }catch (err){
+    console.log("loading");
+  }
+  
 });
 
 client.on('ready', () => {
@@ -43,8 +57,9 @@ client.initialize();
 //   io.emit('message', msg);
 // });
 client.on('disconnected', (reason) => {
-  socket.emit('message', 'Whatsapp is disconnected!');
+  console.log(reason);
   client.destroy();
+  client.logout();
   client.initialize();
 });
 
