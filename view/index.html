@@ -252,7 +252,9 @@
         <div style="padding:5vh">
           <h4>Scan QR from WhatsApp Web menu on your Phone</h4>
           ${!qr && html`<h5>Loading...</h5>`}
-          ${qr && html`<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>`}
+<!--          
+${qr && html`<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>`}
+-->
           ${qr && html`<img src='/qr'/>`}
           <p>QR Code will be refreshed every 30 seconds</p>
           <a href='https://wa.me/6281331648945?text=WhatsApp Web Multi'>WhatsApp Me for more info</a>
