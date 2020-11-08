@@ -78,21 +78,22 @@ client.on("auth_failure", function(session) {
   io.emit("message", "Auth failure, restarting...");
 });
 
-client.on("disconnected", reason => {
+client.on("disconnected",async reason => {
   io.emit("message", "Whatsapp is disconnected!");
-  client.destroy();
-  client.logout();
+  await client.destroy();
   client.initialize();
 });
 // client.on('message', msg => {
 //   io.emit('message', msg);
 // });
-client.on("change_state", reason => {
+client.on("change_state",async reason => {
   console.log(reason);
   io.emit("client", reason);
   if (reason === "UNPAIRED") {
-    client.destroy();
-    client.initialize();
+    await client.logout();
+    app.get("/", async (req, res) => {
+      res.sendFile(__dirname + "/view/index.html");
+    });
   }
 });
 

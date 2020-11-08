@@ -254,7 +254,6 @@
     const Disconnect = ({qr}) =>
       html`
         <div style="padding:5vh">
-          <h4>Scan QR from WhatsApp Web menu on your Phone</h4>
           ${!qr && html`<h5>Loading...</h5>`}
 <!--          
 ${qr && html`<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}'/>`}
