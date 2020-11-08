@@ -248,8 +248,18 @@ app.post('/send',async function(req, res) {
       });
     }
     
-    
-    res.send(client.sendMessage(number, message));
+    client.sendMessage(number, message).then(response => {
+      res.status(200).json({
+        status: true,
+        response: response
+      });
+    }).catch(err => {
+      res.status(500).json({
+        status: false,
+        response: err
+      });
+    });
+    // res.send(client.sendMessage(number, message));
   }
 
   catch(e) {
