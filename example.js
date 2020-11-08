@@ -31,6 +31,7 @@ restartOnAuthFail: true
 
 app.use(bodyParser.json({ limit: '50mb' })); // for parsing application/json
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // for parsing       application/x-www-form-urlencoded
+app.use(express.json());
 
 io.on('connection', (socket) => {
   console.log(io.engine.clientsCount + ' client connected');
@@ -230,10 +231,24 @@ app.get('/send/:id/:message', function(req, res) {
   }
 });
 
-app.post('/send', function(req, res) {
+const checkRegisteredNumber = async function(number) {
+  const isRegistered = await client.isRegisteredUser(number);
+  return isRegistered;
+}
+
+app.post('/send',async function(req, res) {
   try {
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let message = req.body.message;
+    let isRegisteredNumber = await checkRegisteredNumber(number);
+    if (!isRegisteredNumber) {
+      return res.status(422).json({
+        status: false,
+        message: 'The number is not registered'
+      });
+    }
+    
+    
     res.send(client.sendMessage(number, message));
   }
 
