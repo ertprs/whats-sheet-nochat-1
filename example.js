@@ -36,14 +36,9 @@ const listener = http.listen(process.env.PORT, function() {
 
 client.on('qr', (qr) => {
   // Generate and scan this code with your phone
-  try{
   console.log('QR RECEIVED', qr);
   client.pupPage.screenshot({path: __dirname+'/public/qr.png'});
   io.emit('qr', qr);
-  }catch (err){
-    console.log("loading");
-  }
-  
 });
 
 client.on('ready', () => {
@@ -56,8 +51,10 @@ client.initialize();
 // client.on('message', msg => {
 //   io.emit('message', msg);
 // });
+client.on('change_state')
 client.on('disconnected', (reason) => {
   console.log(reason);
+  io.emit('client', 'reason');
   client.destroy();
   client.logout();
   client.initialize();
