@@ -243,9 +243,9 @@
             </table>
             <div ref=${messagesEndRef} />
           </div>
-          <div style='overflow: hidden; position: fixed; bottom: 0; width: 100%; max-width:600px; height:6vh; background-color: darkseagreen; margin:0 auto'>
-            <button style='float:left' onClick="${() => select(null)}">Back</button>
-            <textarea style="width:70%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
+          <div style='overflow: hidden; position: fixed; bottom: 0; width: 100%; max-width:600px; height:5vh; background-color: darkseagreen; margin:0 auto'>
+            <button style='float:left;position: fixed' onClick="${() => select(null)}">Back</button>
+            <textarea style="width:80%" placeholder="Enter your message here" rows="2" value=${txt} onInput='${onInputTxt}'></textarea>
             <button style='float:right' onClick='${sendMessage}'>Send</button>
           </div>
         `;
