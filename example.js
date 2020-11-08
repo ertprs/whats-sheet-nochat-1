@@ -235,17 +235,17 @@ app.post('/send', function(req, res) {
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let message = req.body.message;
     res.send(client.sendMessage(number, message).then(res => {
-      res.status(200).send({
+      res.status(200).json({
         status: true,
         response: res
       });
     }).catch(err => {
-      res.status(500).send({
+      res.status(500).json({
         status: false,
         response: err
       });
     })
-)
+    );
   }
 
   catch(e) {
