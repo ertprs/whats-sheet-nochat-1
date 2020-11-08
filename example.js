@@ -233,8 +233,19 @@ app.post('/send', function(req, res) {
   try {
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let message = req.body.message;
-    res.send(client.sendMessage(number, message));
+    res.send(client.sendMessage(number, message)).then(response => {
+      res.status(200).json({
+        status: true,
+        response: response
+      });
+    }).catch(err => {
+      res.status(500).json({
+        status: false,
+        response: err
+      });
+    });
   }
+
   catch(e) {
     console.error(e);
     res.status(500).send('Post Message Error');
