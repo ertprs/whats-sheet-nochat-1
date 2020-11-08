@@ -47,7 +47,7 @@ io.on("connection", socket => {
 
 // listen for requests!
 const listener = http.listen(process.env.PORT, function() {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log("Your app is listening on port " +        listener.address().port);
 });
 
 client.on("qr", qr => {
@@ -82,6 +82,11 @@ client.on("disconnected",async reason => {
   io.emit("message", "Whatsapp is disconnected!");
   await client.destroy();
   client.initialize();
+  http.close(function() { console.log('Doh :('); });
+  
+  http.listen(process.env.PORT, function() {
+    console.log("Your app is listening on port " +               listener.address().port);
+});
 });
 // client.on('message', msg => {
 //   io.emit('message', msg);
