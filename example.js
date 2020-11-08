@@ -49,12 +49,12 @@ client.on('ready', () => {
 client.initialize();
 
 // client.on('message', msg => {
-//   io.emit('message', msg);
-// });
+
 client.on('change_state',(reason)=>{
   console.log(reason);
   io.emit('client', reason);
-})
+});
+
 client.on('disconnected', (reason) => {
   console.log(reason);
   io.emit('client', reason);
