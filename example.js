@@ -23,11 +23,11 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // for parsin
 
 io.on('connection', (socket) => {
   console.log(io.engine.clientsCount + ' client connected');
-  io.emit('client', io.engine.clientsCount + ' client connected');
+  io.emit('client', 'client connected');
   
   socket.on('disconnect', () => {
     console.log(io.engine.clientsCount + ' client connected');
-    io.emit('client', io.engine.clientsCount + ' client connected');
+    io.emit('client', ' client connected');
   });
 });
 
