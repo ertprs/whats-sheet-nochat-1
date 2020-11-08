@@ -1,14 +1,16 @@
 const { Client } = require('whatsapp-web.js');
-const client = new Client({ puppeteer : { args: [
-  '--no-sandbox',
-  '--disable-setuid-sandbox',
-  '--disable-dev-shm-usage',
-  '--disable-accelerated-2d-canvas',
-  '--no-first-run',
-  '--no-zygote',
-  '--single-process', // <- this one doesn't works in Windows
-  '--disable-gpu'
-] } });
+const client = new Client({ puppeteer :{ 
+  headless : true,
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-accelerated-2d-canvas',
+    '--no-first-run',
+    '--no-zygote',
+    '--single-process', // <- this one doesn't works in Windows
+    '--disable-gpu'
+  ] } });
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
@@ -63,6 +65,7 @@ client.on('disconnected', (reason) => {
   console.log(reason);
   io.emit('client', reason);
   client.destroy();
+  client.logout();
   client.initialize();
 });
 
