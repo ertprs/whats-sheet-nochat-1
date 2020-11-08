@@ -6,10 +6,10 @@ const http = require('http').createServer(app);
 const url = require('url');
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
-const SESSION_FILE_PATH = './sesssion.json';
+const SESSION_FILE_PATH = './session.json';
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
-    sessionCfg = require(SESSION_FILE_PATH);
+  sessionCfg = require(SESSION_FILE_PATH);
 }
 
 const client = new Client({ puppeteer: { 
@@ -56,25 +56,25 @@ client.on('qr', (qr) => {
 });
 
 client.on('authenticated', (session) => {
-    console.log('AUTHENTICATED', session);
-    sessionCfg=session;
-    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
-        if (err) {
-            console.error(err);
-        }
-    });
+  console.log('AUTHENTICATED', session);
+  sessionCfg=session;
+  fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
+    if (err) {
+      console.error(err);
+    }
+  });
 });
 
 client.on('auth_failure', msg => {
-    // Fired if session restore was unsuccessfull
-    console.error('AUTHENTICATION FAILURE', msg);
+  // Fired if session restore was unsuccessfull
+  console.error('AUTHENTICATION FAILURE', msg);
 });
 
 client.on('disconnected', (reason) => {
-    console.log('Client was logged out', reason);
+  console.log('Client was logged out', reason);
   io.emit('client', reason);
-      client.destroy();
-    client.initialize();
+  client.destroy();
+  client.initialize();
 });
 
 client.on('ready', () => {
@@ -234,7 +234,7 @@ app.get('/send/:id/:message', function(req, res) {
 const checkRegisteredNumber = async function(number) {
   const isRegistered = await client.isRegisteredUser(number);
   return isRegistered;
-}
+};
 
 app.post('/send',async function(req, res) {
   try {
