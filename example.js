@@ -42,6 +42,12 @@ client.initialize();
 // client.on('message', msg => {
 //   io.emit('message', msg);
 // });
+client.on('disconnected', (reason) => {
+  socket.emit('message', 'Whatsapp is disconnected!');
+  client.destroy();
+  client.initialize();
+});
+
 
 client.on('message_create', (msg) => {
   // Fired on all message creations, including your own
