@@ -207,10 +207,8 @@ app.get('/send/:id/:message', function(req, res) {
 });
 
 app.post('/send', function(req, res) {
-  console.log(req)
   try {
-    let number = req.body.number + '@c.us';
-        // (req.body.number.includes('-') ? '@g.us' : '@c.us');
+    let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     console.log(number)
     let message = req.body.message;
     res.send(client.sendMessage(number, message));

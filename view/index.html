@@ -84,6 +84,7 @@
         socket.on('client', (data) => {
           setStrClient(data);
           if(data.endsWith('ready!')) {
+            setStrClient(data);
             setConnected(true);
             fetchChats();
           }if(data === 'UNPAIRED'){
