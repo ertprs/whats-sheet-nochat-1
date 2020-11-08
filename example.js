@@ -196,8 +196,7 @@ app.get('/getimage/:id/:msgid', async(req, res) => {
 
 app.get('/send/:id/:message', function(req, res) {
   try {
-    let number = req.body.number + '@c.us';
-        //(req.body.number.includes('-') ? '@g.us' : '@c.us');
+    let number = req.params.id + (req.params.id.includes('-') ? '@g.us' : '@c.us');
     let message = req.params.message;
     res.send(client.sendMessage(number, message));
   }
@@ -210,7 +209,9 @@ app.get('/send/:id/:message', function(req, res) {
 app.post('/send', function(req, res) {
   console.log(req)
   try {
-    let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
+    let number = req.body.number + '@c.us';
+        // (req.body.number.includes('-') ? '@g.us' : '@c.us');
+    console.log(number)
     let message = req.body.message;
     res.send(client.sendMessage(number, message));
   }
@@ -223,8 +224,7 @@ app.post('/send', function(req, res) {
 
 app.post('/send-image',async function (req, res) {
   try {
-    let number = req.body.number + '@c.us';
-        //(req.body.number.includes('-') ? '@g.us' : '@c.us');
+    let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let mime = req.body.mime.toString();
     const data = req.body.src.toString();
     let filename = req.body.filename.toString();
