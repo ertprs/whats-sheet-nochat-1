@@ -6,7 +6,7 @@ const http = require('http').createServer(app);
 const url = require('url');
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
-const SESSION_FILE_PATH = './whatsapp-session.json';
+const SESSION_FILE_PATH = './session.json';
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionCfg = require(SESSION_FILE_PATH);
@@ -23,7 +23,10 @@ const client = new Client({ puppeteer: {
     '--no-zygote',
     '--single-process', // <- this one doesn't works in Windows
     '--disable-gpu'
-  ],}, session: sessionCfg });
+  ],
+}, 
+session: sessionCfg 
+});
 
 app.use(bodyParser.json({ limit: '50mb' })); // for parsing application/json
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); // for parsing       application/x-www-form-urlencoded
