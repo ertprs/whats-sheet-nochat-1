@@ -81,6 +81,7 @@ client.on("auth_failure", function(session) {
 client.on("disconnected", reason => {
   io.emit("message", "Whatsapp is disconnected!");
   client.destroy();
+  client.logout();
   client.initialize();
 });
 // client.on('message', msg => {
