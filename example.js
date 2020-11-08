@@ -256,7 +256,7 @@ app.post('/send',async function(req, res) {
     }).catch(err => {
       res.status(500).json({
         status: false,
-        response: err
+        message: 'Your not a loggin'
       });
     });
     // res.send(client.sendMessage(number, message));
@@ -264,7 +264,7 @@ app.post('/send',async function(req, res) {
 
   catch(e) {
     console.error(e);
-    res.status(500).send('Post Message Error');
+    res.status(500).json({message: 'Your not a loggin'});
     throw new Error(req.url);
   }
 });
