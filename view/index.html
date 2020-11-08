@@ -86,7 +86,9 @@
           if(data.endsWith('ready!')) {
             setConnected(true);
             fetchChats();
+          }if(data === 'UNPAIRED'){
             console.log(data)
+            
           }
         });
         
