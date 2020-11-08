@@ -5,7 +5,7 @@ const http = require("http").createServer(app);
 const url = require("url");
 const io = require("socket.io")(http);
 const bodyParser = require("body-parser");
-const fs = require('fs');
+const fs = require("fs");
 const SESSION_FILE_PATH = "./whatsapp-session.json";
 
 let sessionCfg;
@@ -28,7 +28,7 @@ const client = new Client({
     ]
   },
   session: sessionCfg,
-  restartOnAuthFail: true, // related problem solution
+  restartOnAuthFail: true // related problem solution
 });
 client.initialize();
 
@@ -47,7 +47,7 @@ io.on("connection", socket => {
 
 // listen for requests!
 const listener = http.listen(process.env.PORT, function() {
-  console.log("Your app is listening on port " +        listener.address().port);
+  console.log("Your app is listening on port " + listener.address().port);
 });
 
 client.on("qr", qr => {
@@ -78,27 +78,26 @@ client.on("auth_failure", function(session) {
   io.emit("message", "Auth failure, restarting...");
 });
 
-client.on("disconnected",async reason => {
+client.on("disconnected", async reason => {
   io.emit("message", "Whatsapp is disconnected!");
   await client.destroy();
   client.initialize();
-  http.close(function() { console.log('Doh :('); });
-  
+  http.close(function() {
+    console.log("Doh :(");
+  });
+
   http.listen(process.env.PORT, function() {
-    console.log("Your app is listening on port " +               listener.address().port);
-});
+    console.log("Your app is listening on port " + listener.address().port);
+  });
 });
 // client.on('message', msg => {
 //   io.emit('message', msg);
 // });
-client.on("change_state",async reason => {
+client.on("change_state", async reason => {
   console.log(reason);
   io.emit("client", reason);
   if (reason === "UNPAIRED") {
     await client.logout();
-    app.get("/", async (req, res) => {
-      res.sendFile(__dirname + "/view/index.html");
-    });
   }
 });
 
