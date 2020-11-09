@@ -73,13 +73,11 @@ client.on('auth_failure', msg => {
 client.on('disconnected', (reason) => {
   console.log('Client was logged out', reason);
   io.emit('client', reason);
-  try{
+  if(reason === 'UNPAIRED'){
     fs.unlinkSync(SESSION_FILE_PATH, function(err) {
       if(err) return console.log(err);
       console.log('Session file deleted!');
     });
-  }catch (err){
-    
   }
   client.destroy();
   client.initialize();
