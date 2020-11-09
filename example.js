@@ -38,8 +38,8 @@ io.on('connection', (socket) => {
   io.emit('client', 'client connected');
   
   socket.on('disconnect', () => {
-    console.log(io.engine.clientsCount + ' client connected');
-    io.emit('client', 'client connected');
+    console.log(io.engine.clientsCount + ' disconect connected');
+    io.emit('client', 'disconect connected');
   });
 });
 
@@ -73,6 +73,14 @@ client.on('auth_failure', msg => {
 client.on('disconnected', (reason) => {
   console.log('Client was logged out', reason);
   io.emit('client', reason);
+  try{
+    fs.unlinkSync(SESSION_FILE_PATH, function(err) {
+      if(err) return console.log(err);
+      console.log('Session file deleted!');
+    });
+  }catch (err){
+    
+  }
   client.destroy();
   client.initialize();
 });
