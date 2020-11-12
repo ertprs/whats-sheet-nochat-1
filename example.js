@@ -7,7 +7,7 @@ const http = require('http').createServer(app);
 const url = require('url');
 const io = require('socket.io')(http);
 const bodyParser = require('body-parser');
-const SESSION_FILE_PATH = './session.json';
+const SESSION_FILE_PATH = './whatsapp-session.json';
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionCfg = require(SESSION_FILE_PATH);
