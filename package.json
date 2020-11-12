@@ -4,8 +4,7 @@
   "description": "Library for interacting with the WhatsApp Web API ",
   "main": "./example.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
+    "start": "node example.js"
   },
   "repository": {
     "type": "git",
@@ -29,7 +28,7 @@
     "chrome-launcher": "^0.13.1",
     "whatsapp-web.js": "^1.11.0",
     "express": "^4.16.3",
-    "socket.io": "^2.3.0"
-  },
-  "scripts": { "start": "node example.js" }
+    "socket.io": "^2.3.0",
+    "axios": "^0.21.0"
+  }
 }

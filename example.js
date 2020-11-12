@@ -2,6 +2,7 @@ const fs = require('fs');
 const { Client } = require('whatsapp-web.js');
 const express = require('express');
 const app = express();
+const axios = require('axios');
 const http = require('http').createServer(app);
 const url = require('url');
 const io = require('socket.io')(http);
@@ -277,6 +278,7 @@ app.post('/send',async function(req, res) {
 
 app.post('/send-image',async function (req, res) {
   try {
+    console.log(req);
     let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
     let mime = req.body.mime.toString();
     const data = req.body.src.toString();
@@ -285,7 +287,7 @@ app.post('/send-image',async function (req, res) {
     let caption = req.body.caption.toString();
     let option = { attachment: thumbnail, caption:caption};
     const img = new MessageMedia(mime, data,filename);
-    await client.sendMessage(number, img, option).then(value=>{
+    await client.sendMessage(number, img, caption).then(value=>{
       res.send(value);
     }).catch(error=>{
       res.status(500).send('Post Message Error');
@@ -307,4 +309,42 @@ app.get('/contacts', async(req, res) => {
     res.status(500).send({msg: 'Get Contacts Error!'});
     console.log(e.message);
   }
+});
+
+// Send media
+app.post('/send-media', async (req, res) => {
+  let number = req.body.number + (req.body.number.includes('-') ? '@g.us' : '@c.us');
+  const caption = req.body.caption;
+  const fileUrl = req.body.file;
+
+  let isRegisteredNumber = await checkRegisteredNumber(number);
+  if (!isRegisteredNumber) {
+    return res.status(422).json({
+      status: false,
+      message: 'The number is not registered'
+    });
+  }
+  let mimetype;
+  const attachment = await axios.get(fileUrl, {
+    responseType: 'arraybuffer'
+  }).then(response => {
+    mimetype = response.headers['content-type'];
+    return response.data.toString('base64');
+  });
+
+  const media = new MessageMedia(mimetype, attachment, 'Media');
+
+  client.sendMessage(number, media, {
+    caption: caption
+  }).then(response => {
+    res.status(200).json({
+      status: true,
+      response: response
+    });
+  }).catch(err => {
+    res.status(500).json({
+      status: false,
+      response: err
+    });
+  });
 });
