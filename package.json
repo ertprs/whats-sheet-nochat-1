@@ -4,7 +4,9 @@
   "description": "Library for interacting with the WhatsApp Web API ",
   "main": "./example.js",
   "scripts": {
-    "start": "node example.js"
+    "start": "node example.js",
+    "start:dev": "nodemon example.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -25,11 +27,16 @@
   },
   "homepage": "https://github.com/pedroslopez/whatsapp-web.js#readme",
   "dependencies": {
-    "chrome-launcher": "^0.13.1",
+    "chrome-launcher": "^0.13.4",
     "whatsapp-web.js": "^1.11.0",
-    "express": "^4.16.3",
-    "socket.io": "^2.3.0",
-    "axios": "^0.21.0",
-    "node": "^15.0.1"
+    "express": "^4.17.1",
+    "socket.io": "^3.0.0",
+    "axios": "^0.21.0"
+  },
+  "engines": {
+    "node": "v12.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }
