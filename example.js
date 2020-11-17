@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { Client,MessageMedia } = require("whatsapp-web.js");
+const { Client, MessageMedia } = require("whatsapp-web.js");
 const express = require("express");
 const app = express();
 const axios = require("axios");
