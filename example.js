@@ -196,7 +196,7 @@ app.get("/chats/:dateFrom/:dateTo", async (req, res) => {
     );
     res.send(filteredChat);
   } catch (e) {
-    res.status(500).send("Get Chats By Date From To Error!");
+    res.status(500).send("Get Chats By Date From  To Error!");
     console.log(e.message);
     //throw new Error(req.url);
   }
