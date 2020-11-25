@@ -371,6 +371,7 @@ app.post("/send-media", async (req, res) => {
   const caption = req.body.caption;
   const fileUrl = req.body.file;
   const type = req.body.type;
+  const fileName = req.body.fileName;
   console.log(req);
   let isRegisteredNumber = await checkRegisteredNumber(number);
   if (!isRegisteredNumber) {
@@ -390,7 +391,7 @@ app.post("/send-media", async (req, res) => {
   //     return response.data.toString("base64");
   //   });
 
-  const media = new MessageMedia(type, fileUrl, "Media");
+  const media = new MessageMedia(type, fileUrl, fileName);
 
   client
     .sendMessage(number, media, {
