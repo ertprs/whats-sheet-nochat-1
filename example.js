@@ -389,8 +389,6 @@ app.post("/send-media", async (req, res) => {
   //     mimetype = response.headers["content-type"];
   //     return response.data.toString("base64");
   //   });
-  
-  
 
   const media = new MessageMedia(type, fileUrl, "Media");
 
