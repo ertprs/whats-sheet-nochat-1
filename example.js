@@ -389,7 +389,7 @@ app.post("/send-media", async (req, res) => {
       return response.data.toString("base64");
     });
 
-  const media = new MessageMedia(mimetype, attachment, "Media");
+  const media = new MessageMedia('image/jpeg', attachment, "Media");
 
   client
     .sendMessage(number, media, {
