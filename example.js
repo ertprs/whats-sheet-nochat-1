@@ -371,7 +371,7 @@ app.post("/send-media", async (req, res) => {
   const caption = req.body.caption;
   const fileUrl = req.body.file;
   const type = req.body.type;
-console.log(req)
+  console.log(req);
   let isRegisteredNumber = await checkRegisteredNumber(number);
   if (!isRegisteredNumber) {
     return res.status(422).json({
