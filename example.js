@@ -370,6 +370,7 @@ app.post("/send-media", async (req, res) => {
     req.body.number + (req.body.number.includes("-") ? "@g.us" : "@c.us");
   const caption = req.body.caption;
   const fileUrl = req.body.file;
+  const type = req.body.type;
 
   let isRegisteredNumber = await checkRegisteredNumber(number);
   if (!isRegisteredNumber) {
@@ -391,7 +392,7 @@ app.post("/send-media", async (req, res) => {
   
   
 
-  const media = new MessageMedia(mimetype, attachment, "Media");
+  const media = new MessageMedia(type, fileUrl, "Media");
 
   client
     .sendMessage(number, media, {
