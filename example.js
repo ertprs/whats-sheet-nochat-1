@@ -384,6 +384,7 @@ app.post("/send-media", async (req, res) => {
       responseType: "arraybuffer"
     })
     .then(response => {
+      console.log(response)
       mimetype = response.headers["content-type"];
       return response.data.toString("base64");
     });
