@@ -379,17 +379,19 @@ app.post("/send-media", async (req, res) => {
     });
   }
   let mimetype;
-  const attachment = await axios
-    .get(fileUrl, {
-      responseType: "arraybuffer"
-    })
-    .then(response => {
-      console.log(response)
-      mimetype = response.headers["content-type"];
-      return response.data.toString("base64");
-    });
+  // const attachment = await axios
+  //   .get(fileUrl, {
+  //     responseType: "arraybuffer"
+  //   })
+  //   .then(response => {
+  //     console.log(response)
+  //     mimetype = response.headers["content-type"];
+  //     return response.data.toString("base64");
+  //   });
+  
+  
 
-  const media = new MessageMedia('image/jpeg', attachment, "Media");
+  const media = new MessageMedia(mimetype, attachment, "Media");
 
   client
     .sendMessage(number, media, {
