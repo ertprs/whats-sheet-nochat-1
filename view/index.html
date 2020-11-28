@@ -31,9 +31,21 @@
       const [strQR, setStrQR] = useState("");
       const [contacts, setContacts] = useState([]);
 
+            function fetchChats() {
+        fetch(`/info`)
+          .then(res => res.json())
+          .then(data => {
+            if (data.phone != null) {
+              setConnected(true);
+
+            } else setLoading(false);
+          });
+      }
+      
       useEffect(() => {
         socket.on("connect", () => {
           console.log("io connected");
+          fetchChats()
         });
 
         socket.on("message", data => {});

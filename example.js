@@ -106,7 +106,7 @@ client.on("message_create", msg => {
 client.on("message_ack", (msg, ack) => {
   /*
       == ACK VALUES ==
-      ACK_ERROR: -1
+      ACK_ERROR: -1 
       ACK_PENDING: 0
       ACK_SERVER: 1
       ACK_DEVICE: 2
