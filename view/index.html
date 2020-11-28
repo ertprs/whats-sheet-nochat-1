@@ -31,14 +31,15 @@
       const [strQR, setStrQR] = useState("");
       const [contacts, setContacts] = useState([]);
 
-            function fetchChats() {
+        function fetchChats() {
         fetch(`/info`)
           .then(res => res.json())
           .then(data => {
             if (data.phone != null) {
               setConnected(true);
 
-            } else setLoading(false);
+            } 
+          // else setLoading(false);
           });
       }
       
