@@ -39,13 +39,10 @@
             if (data.response === "CONNECTED") {
               setConnected(true);
               setLoading(false)
-            }if (data.status === false){
+            }else if (data.status === false){
               
               setConnected(false)
-            } 
-          
-          
-          else setLoading(false);
+            }else setLoading(false);
           
           });
       }
@@ -74,6 +71,9 @@
         socket.on("qr", data => {
           setStrQR(data);
           setLoading(false);
+          return html`
+        <${Disconnect} qr=${strQR} />
+      `;
         });
       }, []);
 
