@@ -31,24 +31,20 @@
       const [strQR, setStrQR] = useState("");
       const [contacts, setContacts] = useState([]);
 
-
       useEffect(() => {
         socket.on("connect", () => {
           console.log("io connected");
         });
 
-        socket.on("message", data => {
-        });
+        socket.on("message", data => {});
 
-        socket.on("message_read", data => {
-        });
+        socket.on("message_read", data => {});
 
         socket.on("client", data => {
           setStrClient(data);
           if (data.endsWith("ready!")) {
             setStrClient(data);
             setConnected(true);
-            fetchChats();
           }
           if (data === "UNPAIRED") {
             console.log(data);
@@ -57,6 +53,7 @@
 
         socket.on("qr", data => {
           setStrQR(data);
+          setLoading(false);
         });
       }, []);
 
@@ -66,126 +63,12 @@
         `;
 
       if (isConnected) {
-
-
-
         return html`
-          Loggin
+          LoGin
         `;
       }
       return html`
         <${Disconnect} qr=${strQR} />
-      `;
-    };
-
-  
-    const Message = ({ selectedChat, select }) => {
-      const [txt, setTxt] = useState("");
-
-      const messagesEndRef = useRef(null);
-      const scrollToBottom = () => {
-        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-      };
-
-      useEffect(scrollToBottom);
-
-      const onInputTxt = function(e) {
-        setTxt(e.target.value);
-      };
-
-      const sendMessage = function() {
-        var body = {
-          number: selectedChat.id.user,
-          message: txt
-        };
-        fetch(`/send`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(body)
-        }).then(() => {
-          var newMsg = {
-            body: txt,
-            timestamp: parseInt((new Date().getTime() / 1000).toFixed(0)),
-            fromMe: true,
-            type: "chat"
-          };
-          setTxt("");
-        });
-      };
-
-      const fetchImage = function(m) {
-        if (m.type != "image") return "";
-
-        const [url, setUrl] = useState("");
-
-        useEffect(() => {
-          fetch("/getimage/" + selectedChat.id.user + "/" + m.id.id)
-            .then(res => res.json())
-            .then(data => setUrl(data.data));
-        }, []);
-
-        return html`
-          <img src="data:image/jpg;base64,${url}" alt="${m.id.id}" />
-        `;
-      };
-
-      return html`
-        <div style="height:85vh;overflow:auto">
-          <table>
-            <caption>
-              ${selectedChat.name}
-            </caption>
-            ${selectedChat.msgs.map(
-              m => html`
-                <tr>
-                  <td
-                    align="${m.fromMe ? "right" : "left"}"
-                    style="background-color: ${m.fromMe
-                      ? "white"
-                      : "lightgrey"}"
-                  >
-                    <small
-                      >${(m.fromMe
-                        ? "me"
-                        : m.author
-                        ? m.authorName
-                        : selectedChat.name) +
-                        " - " +
-                        new Date(m.timestamp * 1000).toLocaleTimeString([], {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: false
-                        })} </small
-                    ><br />
-                    <span style="white-space: pre-line;">${m.body}</span>
-                    ${fetchImage(m)}
-                  </td>
-                </tr>
-              `
-            )}
-          </table>
-          <div ref=${messagesEndRef} />
-        </div>
-        <div
-          style="overflow: hidden; position: fixed; bottom: 0; width: 100%; max-width:600px; height:5vh; background-color: darkseagreen; margin:0 auto"
-        >
-          <button
-            style="float:left;position: fixed"
-            onClick="${() => select(null)}"
-          >
-            Back
-          </button>
-          <textarea
-            style="width:80%"
-            placeholder="Enter your message here"
-            rows="2"
-            value=${txt}
-            onInput="${onInputTxt}"
-          ></textarea>
-          <button style="float:right" onClick="${sendMessage}">Send</button>
-        </div>
       `;
     };
 
