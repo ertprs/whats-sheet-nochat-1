@@ -73,6 +73,24 @@ client.on("auth_failure", msg => {
 
 client.on("disconnected", reason => {
   console.log("Client was logged out", reason);
+      const statuswa = await client
+      .getState()
+      .then(response => {
+        conslo.log(response);
+        res.status(200).json({
+          status: true,
+          response: response
+          
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          status: false,
+          message: "Your not a loggin"
+        });
+      });
+  
+  
   io.emit("client", reason);
   if (reason === "UNPAIRED") {
     fs.unlinkSync(SESSION_FILE_PATH, function(err) {
@@ -266,6 +284,7 @@ app.get("/send/:id/:message", function(req, res) {
 });
 
 app.get("/status", async function(req, res) {
+  
   try {
     const statuswa = await client
       .getState()
@@ -287,8 +306,7 @@ app.get("/status", async function(req, res) {
     res.status(500).send("Your not a loggin");
     // throw new Error(req.url);
   }
-  
-  console.log(statuswa)
+
 });
 
 const checkRegisteredNumber = async function(number) {
