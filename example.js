@@ -270,9 +270,11 @@ app.get("/status", async function(req, res) {
     const statuswa = await client
       .getState()
       .then(response => {
+        conslo.log(response);
         res.status(200).json({
           status: true,
           response: response
+          
         });
       })
       .catch(err => {
@@ -285,6 +287,8 @@ app.get("/status", async function(req, res) {
     res.status(500).send("Your not a loggin");
     // throw new Error(req.url);
   }
+  
+  console.log(statuswa)
 });
 
 const checkRegisteredNumber = async function(number) {
