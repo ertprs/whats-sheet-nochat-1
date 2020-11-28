@@ -32,14 +32,21 @@
       const [contacts, setContacts] = useState([]);
 
         function fetchChats() {
-        fetch(`/info`)
+        fetch(`/status`)
           .then(res => res.json())
           .then(data => {
-            if (data.phone != null) {
+          console.log(data)
+            if (data.response === "CONNECTED") {
               setConnected(true);
-
+              setLoading(false)
+            }if (data.status === false){
+              
+              setConnected(false)
             } 
-          // else setLoading(false);
+          
+          
+          else setLoading(false);
+          
           });
       }
       
