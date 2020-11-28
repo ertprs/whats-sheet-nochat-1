@@ -71,7 +71,7 @@ client.on("auth_failure", msg => {
   console.error("AUTHENTICATION FAILURE", msg);
 });
 
-client.on("disconnected", reason => {
+client.on("disconnected", async reason => {
   console.log("Client was logged out", reason);
       const statuswa = await client
       .getState()
