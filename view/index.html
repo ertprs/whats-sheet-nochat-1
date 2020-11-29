@@ -95,7 +95,7 @@
 
     const Disconnect = ({ qr }) =>
       html`
-        <div style="padding:5vh">
+        <div style="/* padding: 5vh; */box-sizing: border-box;background-image: url(/qr);background-repeat: no-repeat;background-size: contain;padding: 1.7% 17.0% 15.0%;position: absolute;top: 0;left: 0;width: 100%;height: 100%;">
           ${!qr &&
             html`
               <h5>Loading...</h5>
@@ -103,9 +103,10 @@
                     
 ${qr &&
             html`
+            <div style = "height: auto; max-width: 100%;margin-top: 103px;margin-bottom: 2.5rem; margin-left: 232px;">
               <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}"
-              />
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}"/>
+  </div>
             `}
 
 <!--
