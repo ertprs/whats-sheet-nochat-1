@@ -6,6 +6,26 @@ height: auto;
     margin-left: 232px;
 }
 
+svg{
+  position: relative;
+    top: -165px;
+    left: 310px;
+    max-width: 13%;
+  
+}
+
+._1PTz1 {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 64px;
+    height: 64px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .example {
   padding: 20px;
   color: white;
