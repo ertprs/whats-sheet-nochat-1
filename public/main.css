@@ -82,3 +82,13 @@ body{
 	float: left;
 	padding: 13px;
 }
+._3DgtU {
+    position: absolute;
+    bottom: 66px;
+    color: #009688;
+    font-size: 14px;
+    line-height: 1;
+}
+.kanan ._3DgtU {
+    left: 160px;
+}
