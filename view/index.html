@@ -38,7 +38,6 @@
           .then(data => {
           console.log(data)
             if (data.response === "CONNECTED") {
-              setStrClient(data.response)
               setConnected(true);
               setLoading(false)
             }else if (data.status === false){
@@ -62,14 +61,13 @@
         socket.on("change_state",data =>{
           
           console.log(data)
-          setStrClient(data)
           if (data === "CONNECTED"){
             setStrClient(data);
             setConnected(true);
             setLoading(false);
           }if (data === "UNPAIRED"){
             
-            setStrClient(data);
+                      setStrClient(data);
             setConnected(false);
             setLoading(true);
           }
@@ -77,9 +75,11 @@
 
         socket.on("client", data => {
           if (data.endsWith("ready!")) {
+            setStrClient(data);
             setConnected(true);
           }
           if (data === "UNPAIRED") {
+            setStrClient(data);
             setConnected(false);
             setLoading(true);
             
@@ -88,6 +88,7 @@
 
         socket.on("qr", data => {
           fetchChats()
+          setStrQR(data);
           setLoading(false);
         });
       }, []);
