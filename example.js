@@ -29,7 +29,7 @@ const client = new Client({
       "--disable-gpu"
     ]
   },
-  session: sessionCfg
+  // session: sessionCfg
 });
 
 app.use(bodyParser.json({ limit: "50mb" })); // for parsing application/json
