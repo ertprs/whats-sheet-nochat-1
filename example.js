@@ -297,6 +297,7 @@ app.get("/status", async function(req, res) {
         });
       })
       .catch(err => {
+        client.destroy()
         res.status(500).json({
           status: false,
           message: "Your not a loggin"
@@ -304,6 +305,7 @@ app.get("/status", async function(req, res) {
       });
   } catch (e) {
     res.status(500).send("Your not a loggin");
+    client.destroy()
     // throw new Error(req.url);
   }
 
