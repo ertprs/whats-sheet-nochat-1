@@ -8,6 +8,7 @@ const url = require("url");
 const io = require("socket.io")(http);
 const bodyParser = require("body-parser");
 const SESSION_FILE_PATH = "./session.json";
+const path = require("path");
 const events = (require("events").EventEmitter.defaultMaxListeners = 1000);
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
@@ -35,6 +36,7 @@ const client = new Client({
 app.use(bodyParser.json({ limit: "50mb" })); // for parsing application/json
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true })); // for parsing       application/x-www-form-urlencoded
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", async socket => {
   console.log(io.engine.clientsCount + " client connected");
