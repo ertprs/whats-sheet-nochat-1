@@ -90,6 +90,11 @@ client.on("disconnected", async reason => {
   client.initialize();
 });
 
+client.on("change_state", async reason => {
+  console.log(reason);
+  io.emit("reason", reason);
+});
+
 client.on("ready", () => {
   console.log("Client is ready!");
   io.emit("client", "Client is ready!");

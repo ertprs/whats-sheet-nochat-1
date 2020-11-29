@@ -57,6 +57,11 @@
         socket.on("message", data => {});
 
         socket.on("message_read", data => {});
+        
+        socket.on("change_state",data =>{
+          
+          console.log(data)
+        })
 
         socket.on("client", data => {
           setStrClient(data);
@@ -76,9 +81,6 @@
           fetchChats()
           setStrQR(data);
           setLoading(false);
-          return html`
-              <img src="/qr" />
-            `
         });
       }, []);
 
