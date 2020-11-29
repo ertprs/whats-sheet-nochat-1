@@ -78,20 +78,6 @@ client.on("disconnected", async reason => {
   console.log("Client was logged out", reason);
   const statuswa = await client
     .getState()
-    .then(response => {
-      conslo.log(response);
-      res.status(200).json({
-        status: true,
-        response: response
-      });
-    })
-    .catch(err => {
-      res.status(500).json({
-        status: false,
-        message: "Your not a loggin"
-      });
-    });
-
   io.emit("client", reason);
   if (reason === "UNPAIRED") {
     fs.unlinkSync(SESSION_FILE_PATH, function(err) {

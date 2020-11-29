@@ -39,7 +39,7 @@
           console.log(data)
             if (data.response === "CONNECTED") {
               setConnected(true);
-              setLoading(true)
+              setLoading(false)
             }else if (data.status === false){
               
               setConnected(false)
@@ -65,7 +65,10 @@
             setConnected(true);
           }
           if (data === "UNPAIRED") {
-            console.log(data);
+            setStrClient(data);
+            setConnected(false);
+            setLoading(true);
+            
           }
         });
 
@@ -121,7 +124,7 @@ ${qr &&
     const Loading = () =>
       html`
         <div style="top: 50%; width:100%; margin: 0">
-          <img src="https://cdn.glitch.com/1ad1176f-bd86-4dfd-8236-669dd638790a%2Fdownload%20(1).png?v=1606588692677"/>
+          <img src="https://cdn.glitch.com/1ad1176f-bd86-4dfd-8236-669dd638790a%2Fdownload%20(1).png?v=1606588692677" class="loading"/>
           <center><strong>LOADING...</strong></center>
         </div>
       `;

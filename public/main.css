@@ -27,6 +27,14 @@ height: auto;
     margin-left: 75px;
     
   }
+  .loading{
+    height: auto;
+    max-width: 52%;
+    margin-top: 50px;
+    margin-bottom: 2.5rem;
+    margin-left: 75px;
+    
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
