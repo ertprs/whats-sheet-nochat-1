@@ -8,6 +8,7 @@
       href="https://unpkg.com/sakura.css/css/sakura.css"
       type="text/css"
     />
+    <link rel="stylesheet" type="text/css" href="main.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.js"></script>
   </head>
   <script type="module">
@@ -103,10 +104,7 @@
                     
 ${qr &&
             html`
-            <div style = "height: auto; max-width: 100%;margin-top: 103px;margin-bottom: 2.5rem; margin-left: 232px;">
-              <img
-                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}"/>
-  </div>
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}"/>
             `}
 
 <!--
@@ -116,10 +114,6 @@ ${qr &&
             `}
             
             -->
-          <p>QR Code will be refreshed every 30 seconds</p>
-          <a href="https://wa.me/6282298829474?text=WhatsApp on Sheet"
-            >WhatsApp Me for more info</a
-          >
         </div>
       `;
 
