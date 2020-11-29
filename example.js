@@ -295,9 +295,6 @@ app.get("/status", async function(req, res) {
         });
       })
       .catch(err => {
-        client.destroy();
-        client.initialize();
-
         res.status(500).json({
           status: false,
           message: "Your not a loggin"
