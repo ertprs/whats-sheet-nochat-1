@@ -14,8 +14,14 @@ body{
 	box-shadow: 0 17px 50px 0 rgba(0,0,0,.19),0 12px 15px 0 rgba(0,0,0,.24);
 	border-radius: 4px;
 }.content img{
-	width: 100%;
-	/*box-shadow: 2px 1px 4px 1px;*/
+    position: relative;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 264px;
+    height: 264px;
+    overflow: hidden;
 
 }.back{
 	background: #00bfa5;
@@ -91,4 +97,16 @@ body{
 }
 .kanan ._3DgtU {
     left: 160px;
+}
+
+@media screen and (max-width: 780px)
+.kiri {
+    flex: none;
+    order: 1;
+    width: 100%;
+}
+@media screen and (max-width: 1095px)
+.kiri {
+    flex: 1 1 auto;
+    max-width: 100%;
 }
