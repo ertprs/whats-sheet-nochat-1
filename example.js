@@ -8,6 +8,7 @@ const url = require("url");
 const io = require("socket.io")(http);
 const bodyParser = require("body-parser");
 const SESSION_FILE_PATH = "./session.json";
+const events = (require("events").EventEmitter.defaultMaxListeners = 1000);
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionCfg = require(SESSION_FILE_PATH);
@@ -73,24 +74,22 @@ client.on("auth_failure", msg => {
 
 client.on("disconnected", async reason => {
   console.log("Client was logged out", reason);
-      const statuswa = await client
-      .getState()
-      .then(response => {
-        conslo.log(response);
-        res.status(200).json({
-          status: true,
-          response: response
-          
-        });
-      })
-      .catch(err => {
-        res.status(500).json({
-          status: false,
-          message: "Your not a loggin"
-        });
+  const statuswa = await client
+    .getState()
+    .then(response => {
+      conslo.log(response);
+      res.status(200).json({
+        status: true,
+        response: response
       });
-  
-  
+    })
+    .catch(err => {
+      res.status(500).json({
+        status: false,
+        message: "Your not a loggin"
+      });
+    });
+
   io.emit("client", reason);
   if (reason === "UNPAIRED") {
     fs.unlinkSync(SESSION_FILE_PATH, function(err) {
@@ -285,7 +284,6 @@ app.get("/send/:id/:message", function(req, res) {
 });
 
 app.get("/status", async function(req, res) {
-  
   try {
     const statuswa = await client
       .getState()
@@ -294,13 +292,12 @@ app.get("/status", async function(req, res) {
         res.status(200).json({
           status: true,
           response: response
-          
         });
       })
       .catch(err => {
-        client.destroy()
+        client.destroy();
         client.initialize();
-        
+
         res.status(500).json({
           status: false,
           message: "Your not a loggin"
@@ -310,7 +307,6 @@ app.get("/status", async function(req, res) {
     res.status(500).send("Your not a loggin");
     // throw new Error(req.url);
   }
-
 });
 
 const checkRegisteredNumber = async function(number) {
