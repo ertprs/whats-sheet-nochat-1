@@ -30,7 +30,7 @@ const client = new Client({
       "--disable-gpu"
     ]
   },
-  // session: sessionCfg
+  session: sessionCfg
 });
 
 app.use(bodyParser.json({ limit: "50mb" })); // for parsing application/json
@@ -76,9 +76,6 @@ client.on("auth_failure", msg => {
 
 client.on("disconnected", async reason => {
   console.log("Client was logged out", reason);
-  const statuswa = await client
-    .getState()
-  io.emit("client", reason);
   if (reason === "UNPAIRED") {
     fs.unlinkSync(SESSION_FILE_PATH, function(err) {
       if (err) return console.log(err);
@@ -86,13 +83,18 @@ client.on("disconnected", async reason => {
     });
   }
   client.destroy();
-  client.logout();
   client.initialize();
 });
 
 client.on("change_state", async reason => {
   console.log(reason);
   io.emit("change_state", reason);
+  
+  if(reason === "UNPAIRED"){
+    
+    client.destroy();
+    client.initialize();
+  }
 });
 
 client.on("ready", () => {

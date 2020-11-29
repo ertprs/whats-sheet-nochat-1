@@ -38,6 +38,7 @@
           .then(data => {
           console.log(data)
             if (data.response === "CONNECTED") {
+              setStrClient(data.response)
               setConnected(true);
               setLoading(false)
             }else if (data.status === false){
@@ -61,6 +62,7 @@
         socket.on("change_state",data =>{
           
           console.log(data)
+          setStrClient(data)
           if (data === "CONNECTED"){
             setStrClient(data);
             setConnected(true);
@@ -74,13 +76,10 @@
         })
 
         socket.on("client", data => {
-          setStrClient(data);
           if (data.endsWith("ready!")) {
-            setStrClient(data);
             setConnected(true);
           }
           if (data === "UNPAIRED") {
-            setStrClient(data);
             setConnected(false);
             setLoading(true);
             
@@ -89,7 +88,6 @@
 
         socket.on("qr", data => {
           fetchChats()
-          setStrQR(data);
           setLoading(false);
         });
       }, []);
@@ -102,7 +100,7 @@
       if (isConnected) {
         return html`
           <img src="https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif" class="connect"/>
-          <center><strong>Whats-Sheet Connected</strong></center>
+          <center><strong>Whats-Sheet ${strClient}</strong></center>
         `;
       }
       return html`
