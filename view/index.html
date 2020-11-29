@@ -39,7 +39,7 @@
           console.log(data)
             if (data.response === "CONNECTED") {
               setConnected(true);
-              setLoading(false)
+              setLoading(true)
             }else if (data.status === false){
               
               setConnected(false)
@@ -86,7 +86,8 @@
 
       if (isConnected) {
         return html`
-          <img src="https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif"/>
+          <img src="https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif" class="connect"/>
+          <center><strong>Whats-Sheet Connected</strong></center>
         `;
       }
       return html`
@@ -119,8 +120,9 @@ ${qr &&
 
     const Loading = () =>
       html`
-        <div style="position: absolute; top: 50%; width:100%; margin: 0">
+        <div style="top: 50%; width:100%; margin: 0">
           <img src="https://cdn.glitch.com/1ad1176f-bd86-4dfd-8236-669dd638790a%2Fdownload%20(1).png?v=1606588692677"/>
+          <center><strong>LOADING...</strong></center>
         </div>
       `;
 
