@@ -92,7 +92,7 @@ client.on("disconnected", async reason => {
 
 client.on("change_state", async reason => {
   console.log(reason);
-  io.emit("reason", reason);
+  io.emit("change_state", reason);
 });
 
 client.on("ready", () => {
