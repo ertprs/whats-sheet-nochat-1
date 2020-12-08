@@ -14,7 +14,7 @@ let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionCfg = require(SESSION_FILE_PATH);
 }
-let qrCode
+let qrCode;
 const client = new Client({
   restartOnAuthFail: true,
   puppeteer: {
@@ -55,7 +55,7 @@ const listener = http.listen(process.env.PORT, function() {
 client.on("qr", qr => {
   // Generate and scan this code with your phone
   console.log("QR RECEIVED", qr);
-  qrCode = qr
+  qrCode = qr;
   client.pupPage.screenshot({ path: __dirname + "/public/qr.png" });
   io.emit("qr", qr);
 });
@@ -90,9 +90,8 @@ client.on("disconnected", async reason => {
 client.on("change_state", async reason => {
   console.log(reason);
   io.emit("change_state", reason);
-  
-  if(reason === "UNPAIRED"){
-    
+
+  if (reason === "UNPAIRED") {
     client.destroy();
     client.initialize();
   }
@@ -318,21 +317,22 @@ app.post("/send", async function(req, res) {
         message: "The number is not registered"
       });
     }
-
-    client
-      .sendMessage(number, message)
-      .then(response => {
-        res.status(200).json({
-          status: true,
-          response: response
+    if (message.length) {
+      client
+        .sendMessage(number, message)
+        .then(response => {
+          res.status(200).json({
+            status: true,
+            response: response
+          });
+        })
+        .catch(err => {
+          res.status(500).json({
+            status: false,
+            message: "Your not a loggin"
+          });
         });
-      })
-      .catch(err => {
-        res.status(500).json({
-          status: false,
-          message: "Your not a loggin"
-        });
-      });
+    }
     // res.send(client.sendMessage(number, message));
   } catch (e) {
     console.error(e);
@@ -450,15 +450,14 @@ app.post("/cek", async (req, res) => {
   }
 });
 
-
 app.get("/qrCode", async (req, res) => {
   try {
     res.status(200).json({
-          status: true,
-          response: qrCode
-        })
+      status: true,
+      response: qrCode
+    });
   } catch (error) {
-    res.send(error)
+    res.send(error);
     console.log(error);
   }
-})
+});
