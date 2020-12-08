@@ -424,7 +424,7 @@ app.post("/send-media", async (req, res) => {
     });
 });
 
-app.get("/cek", async (req, res) => {
+app.post("/cek", async (req, res) => {
   let number =
     req.body.number + (req.body.number.includes("-") ? "@g.us" : "@c.us");
   try {
