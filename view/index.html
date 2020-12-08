@@ -31,6 +31,12 @@
       const [strClient, setStrClient] = useState("");
       const [strQR, setStrQR] = useState("");
       const [contacts, setContacts] = useState([]);
+      
+          function raiseInvoiceClicked(){
+
+   window.open(`/qr`, "_blank") 
+     }
+    
 
         function fetchChats() {
         fetch(`/status`)
@@ -121,6 +127,7 @@
 ${qr &&
             html`
               <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}" class="qr"/>
+              <button type="button" className="btn btn-default pull-right" onClick={raiseInvoiceClicked}>Reload QrCode</button>
               
             `}
 
@@ -133,6 +140,7 @@ ${qr &&
             -->
         </div>
       `;
+
 
     const Loading = () =>
       html`
