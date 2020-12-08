@@ -14,7 +14,7 @@ let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
   sessionCfg = require(SESSION_FILE_PATH);
 }
-
+let qrCode
 const client = new Client({
   restartOnAuthFail: true,
   puppeteer: {
@@ -55,6 +55,7 @@ const listener = http.listen(process.env.PORT, function() {
 client.on("qr", qr => {
   // Generate and scan this code with your phone
   console.log("QR RECEIVED", qr);
+  qrCode = qr
   client.pupPage.screenshot({ path: __dirname + "/public/qr.png" });
   io.emit("qr", qr);
 });
@@ -448,3 +449,16 @@ app.post("/cek", async (req, res) => {
     });
   }
 });
+
+
+app.get("/qrCode", async (req, res) => {
+  try {
+    res.status(200).json({
+          status: true,
+          response: qrCode
+        })
+  } catch (error) {
+    res.send(error)
+    console.log(error);
+  }
+})
