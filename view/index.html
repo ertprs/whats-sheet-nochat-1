@@ -31,9 +31,6 @@
       const [strClient, setStrClient] = useState("");
       const [strQR, setStrQR] = useState("");
       const [contacts, setContacts] = useState([]);
-      
-          const raiseInvoiceClicked = () => window.open('www.google.com', "_blank")
-
         function fetchChats() {
         fetch(`/status`)
           .then(res => res.json())
@@ -129,7 +126,9 @@ ${qr &&
             
             ${qr &&
           html`
-          <button type="button" onClick={this.raiseInvoiceClicked}>Reload QrCode</button>
+          <button type="button">
+          <a href="{href}" target="_blank">
+          Reload QrCode</button>
           `
           }
 
