@@ -124,6 +124,7 @@
           var find = listChats.find(
             c => c.id._serialized == (newMsg.fromMe ? newMsg.to : newMsg.from)
           );
+          console.log(find)
           if (find) {
             if (newMsg.ack == 3) {
               find.unreadCount = 0;
