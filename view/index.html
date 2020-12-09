@@ -154,7 +154,9 @@
               lastMsg: newMsg,
               timestamp: newMsg.timestamp,
               unreadCount: newMsg.fromMe ? 0 : 1
+              
             };
+            console.log(id + 159)
             listChats.unshift(newChat);
           }
           setNewMsg(null);
