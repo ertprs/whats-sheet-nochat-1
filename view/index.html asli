@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>WhatsApp on Sheet</title>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/sakura.css/css/sakura.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.1/socket.io.js"></script>
+  </head>
+  <script type="module">
+    import {
+      html,
+      render,
+      useState,
+      useEffect,
+      useRef
+    } from "https://unpkg.com/htm/preact/standalone.module.js";
+
+    const socket = io();
+
+    const App = () => {
+      const [isLoading, setLoading] = useState(true);
+      const [listChats, setListChats] = useState([]);
+      const [isConnected, setConnected] = useState(false);
+      const [selectedChat, setSelectedChat] = useState(null);
+      const [newMsg, setNewMsg] = useState(null);
+      const [strClient, setStrClient] = useState("");
+      const [strQR, setStrQR] = useState("");
+      const [contacts, setContacts] = useState([]);
+        function fetchChats() {
+        fetch(`/status`)
+          .then(res => res.json())
+          .then(data => {
+          console.log(data)
+          setStrClient(data.response)
+            if (data.response === "CONNECTED") {
+              setConnected(true);
+              setLoading(false)
+            }else if (data.status === false){
+              
+              setConnected(false)
+            }else setLoading(false);
+          
+          });
+      }
+      
+      useEffect(() => {
+        socket.on("connect", () => {
+          console.log("io connected");
+          fetchChats()
+        });
+
+        socket.on("message", data => {});
+
+        socket.on("message_read", data => {});
+        
+        socket.on("change_state",data =>{
+          
+          console.log(data)
+          if (data === "CONNECTED"){
+            setStrClient(data);
+            setConnected(true);
+            setLoading(false);
+          }if (data === "UNPAIRED"){
+            
+                      setStrClient(data);
+            setConnected(false);
+            setLoading(true);
+          }
+        })
+
+        socket.on("client", data => {
+          if (data.endsWith("ready!")) {
+            setStrClient(data);
+            setConnected(true);
+          }
+          if (data === "UNPAIRED") {
+            setStrClient(data);
+            setConnected(false);
+            setLoading(true);
+            
+          }
+        });
+
+        socket.on("qr", data => {
+          fetchChats()
+          setStrQR(data);
+          setLoading(false);
+        });
+      }, []);
+
+      if (isLoading)
+        return html`
+          <${Loading} />
+        `;
+
+      if (isConnected) {
+        return html`
+          <img src="https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif" class="connect"/>
+          <center><strong>Whats-Sheet ${strClient}</strong></center>
+        `;
+      }
+      return html`
+        <${Disconnect} qr=${strQR} />
+      `;
+    };
+
+    const Disconnect = ({ qr }) =>
+      html`
+        <div style="/* padding: 5vh; */box-sizing: border-box;background-image: url(/qr);background-repeat: no-repeat;background-size: contain;padding: 1.7% 17.0% 15.0%;position: absolute;top: 0;left: 0;width: 100%;height: 100%;">
+          ${!qr &&
+            html`
+              <h5>Loading...</h5>
+            `}
+                    
+${qr &&
+            html`
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qr}" class="qr"/>
+              
+              
+            `}
+            
+<!--
+          ${qr &&
+            html`
+              <img src="/qr" />
+            `}
+            
+            -->
+        </div>
+      `;
+
+
+    const Loading = () =>
+      html`
+        <div style="top: 50%; width:100%; margin: 0">
+          <img src="https://cdn.glitch.com/1ad1176f-bd86-4dfd-8236-669dd638790a%2Fdownload%20(1).png?v=1606588692677" class="loading"/>
+          <center><strong>LOADING...</strong></center>
+        </div>
+      `;
+
+    const Header = () =>
+      html`
+        <div
+          style="position: fixed; top: 0; width: 100%; max-width:600px;height:9vh; background-color: darkseagreen; overflow: hidden; margin:0px auto"
+        >
+          <center><h2 style="margin-top:1rem">WhatsApp on Sheet</h2></center>
+        </div>
+      `;
+
+    render(
+      html`
+        <${Header} />
+        <div
+          style="position:absolute;top:9vh;bottom:0px;width:100%;max-width:600px;height:91vh;overflow:auto;margin:0px auto"
+        >
+          <${App} />
+        </div>
+      `,
+      document.body
+    );
+  </script>
+  <body style="height:100vh;padding:0;margin:0 auto"></body>
+</html>
