@@ -100,7 +100,7 @@
     const socket = io();
               socket.on("qr", data => {
                 console.log(data)
-                $('body > div.co > div > div > div.kanan > img').attr("src", "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+data);
+                $('body > div.co > div > div > div.kanan > img').attr("src", data);
         });
       
               function fetchChats() {
