@@ -16,6 +16,7 @@ const io = require("socket.io")(http, {log:false, origins:'*:*'});
 const bodyParser = require("body-parser");
 const SESSION_FILE_PATH = "./session.json";
 const path = require("path");
+const qrcode = require('qrcode');
 const events = (require("events").EventEmitter.defaultMaxListeners = 1000);
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
@@ -64,7 +65,10 @@ client.on("qr", qr => {
   console.log("QR RECEIVED", qr);
   qrCode = qr;
   client.pupPage.screenshot({ path: __dirname + "/public/qr.png" });
-  io.emit("qr", qr);
+      qrcode.toDataURL(qr, (err, url) => {
+      io.emit('qr', url);
+    });
+  
 });
 
 client.on("authenticated", session => {
