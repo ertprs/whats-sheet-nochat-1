@@ -1,89 +1,35 @@
 dependencies:
-  axios: 0.21.0
+  axios: 0.21.1
+  body-parser: 1.19.0
   chrome-launcher: 0.13.4
   express: 4.17.1
   qrcode: 1.4.4
   socket.io: 3.0.4
-  whatsapp-web.js: 1.11.1
+  whatsapp-web.js: 1.11.2
 packages:
   /@pedroslopez/moduleraid/4.1.0:
     dev: false
     resolution:
       integrity: sha512-+2OYf1IDLhZlOY3QEwGfZJKfM/uPB3lw9zedl3eqEMtod73r1R7TUnmlh8S7hM8uLUcrWXMnJ9TrMbxXeV1pZg==
-  /@types/body-parser/1.19.0:
-    dependencies:
-      '@types/connect': 3.4.33
-      '@types/node': 14.14.10
-    dev: false
-    resolution:
-      integrity: sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==
   /@types/component-emitter/1.2.10:
     dev: false
     resolution:
       integrity: sha512-bsjleuRKWmGqajMerkzox19aGbscQX5rmmvvXl3wlIp5gMG1HgkiwPxsN5p070fBDKTNSPgojVbuY1+HWMbFhg==
-  /@types/connect/3.4.33:
-    dependencies:
-      '@types/node': 14.14.10
-    dev: false
-    resolution:
-      integrity: sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==
   /@types/cookie/0.4.0:
     dev: false
     resolution:
       integrity: sha512-y7mImlc/rNkvCRmg8gC3/lj87S7pTUIJ6QGjwHR9WQJcFs+ZMTOaoPrkdFA/YdbuqVEmEbb5RdhVxMkAcgOnpg==
-  /@types/cors/2.8.8:
-    dependencies:
-      '@types/express': 4.17.9
+  /@types/cors/2.8.9:
     dev: false
     resolution:
-      integrity: sha512-fO3gf3DxU2Trcbr75O7obVndW/X5k8rJNZkLXlQWStTHhP71PkRqjwPIEI0yMnJdg9R9OasjU+Bsr+Hr1xy/0w==
-  /@types/express-serve-static-core/4.17.14:
-    dependencies:
-      '@types/node': 14.14.10
-      '@types/qs': 6.9.5
-      '@types/range-parser': 1.2.3
+      integrity: sha512-zurD1ibz21BRlAOIKP8yhrxlqKx6L9VCwkB5kMiP6nZAhoF5MvC7qS1qPA7nRcr1GJolfkQC7/EAL4hdYejLtg==
+  /@types/node/14.14.16:
     dev: false
     resolution:
-      integrity: sha512-uFTLwu94TfUFMToXNgRZikwPuZdOtDgs3syBtAIr/OXorL1kJqUJT9qCLnRZ5KBOWfZQikQ2xKgR2tnDj1OgDA==
-  /@types/express/4.17.9:
-    dependencies:
-      '@types/body-parser': 1.19.0
-      '@types/express-serve-static-core': 4.17.14
-      '@types/qs': 6.9.5
-      '@types/serve-static': 1.13.8
-    dev: false
-    resolution:
-      integrity: sha512-SDzEIZInC4sivGIFY4Sz1GG6J9UObPwCInYJjko2jzOf/Imx/dlpume6Xxwj1ORL82tBbmN4cPDIDkLbWHk9hw==
-  /@types/mime/2.0.3:
-    dev: false
-    resolution:
-      integrity: sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q==
-  /@types/node/14.14.10:
-    dev: false
-    resolution:
-      integrity: sha512-J32dgx2hw8vXrSbu4ZlVhn1Nm3GbeCFNw2FWL8S5QKucHGY0cyNwjdQdO+KMBZ4wpmC7KhLCiNsdk1RFRIYUQQ==
-  /@types/node/14.14.9:
-    dev: false
-    resolution:
-      integrity: sha512-JsoLXFppG62tWTklIoO4knA+oDTYsmqWxHRvd4lpmfQRNhX6osheUOWETP2jMoV/2bEHuMra8Pp3Dmo/stBFcw==
-  /@types/qs/6.9.5:
-    dev: false
-    resolution:
-      integrity: sha512-/JHkVHtx/REVG0VVToGRGH2+23hsYLHdyG+GrvoUGlGAd0ErauXDyvHtRI/7H7mzLm+tBCKA7pfcpkQ1lf58iQ==
-  /@types/range-parser/1.2.3:
-    dev: false
-    resolution:
-      integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
-  /@types/serve-static/1.13.8:
-    dependencies:
-      '@types/mime': 2.0.3
-      '@types/node': 14.14.10
-    dev: false
-    resolution:
-      integrity: sha512-MoJhSQreaVoL+/hurAZzIm8wafFR6ajiTM1m4A0kv6AGeVBl4r4pOV8bGFrjjq1sGxDTnCoF8i22o0/aE5XCyA==
+      integrity: sha512-naXYePhweTi+BMv11TgioE2/FXU4fSl29HAH1ffxVciNsH3rYXjNP2yM8wqmSm7jS20gM8TIklKiTen+1iVncw==
   /@types/yauzl/2.9.1:
     dependencies:
-      '@types/node': 14.14.9
+      '@types/node': 14.14.16
     dev: false
     optional: true
     resolution:
@@ -121,12 +67,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
-  /axios/0.21.0:
+  /axios/0.21.1:
     dependencies:
-      follow-redirects: 1.13.0
+      follow-redirects: 1.13.1
     dev: false
     resolution:
-      integrity: sha512-fmkJBknJKoZwem3/IKSSLpkdNXZeBu5Q7GA/aRsr2btgrptmSCxi2oFjZHqGdK9DoTil9PIHlPIZw2EcRJXRvw==
+      integrity: sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   /balanced-match/1.0.0:
     dev: false
     resolution:
@@ -227,7 +173,7 @@ packages:
       integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==
   /chrome-launcher/0.13.4:
     dependencies:
-      '@types/node': 14.14.9
+      '@types/node': 14.14.16
       escape-string-regexp: 1.0.5
       is-wsl: 2.2.0
       lighthouse-logger: 1.2.0
@@ -309,7 +255,7 @@ packages:
       integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
   /debug/4.1.1:
     dependencies:
-      ms: 2.1.2
+      ms: 2.1.3
     deprecated: 'Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)'
     dev: false
     resolution:
@@ -491,12 +437,12 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-PpOwAdQ/YlXQ2vj8a3h8IipDuYRi3wceVQQGYWxNINccq40Anw7BlsEXCMbt1Zt+OLA6Fq9suIpIWD0OsnISlw==
-  /follow-redirects/1.13.0:
+  /follow-redirects/1.13.1:
     dev: false
     engines:
       node: '>=4.0'
     resolution:
-      integrity: sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
+      integrity: sha512-SSG5xmZh1mkPGyKzjZP8zLjltIfpW32Y5QpdNJyjcfGxK3qo3NDDkZOZSFiGn1A6SclQxY9GzEwAHQ3dmYRWpg==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -702,13 +648,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
-  /mime/2.4.6:
+  /mime/2.4.7:
     dev: false
     engines:
       node: '>=4.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-RZKhC3EmpBchfTGBVb8fb+RL2cWyw/32lshnsETttkBAyAUXSGHxbEJWWRXc751DrIxG1q04b8QwMbAwkRPpUA==
+      integrity: sha512-dhNd1uA2u397uQk3Nv5LM4lm93WYDUXFn3Fu291FJerns4jyTudqhIWe4W04YLy7Uk1tm1Ore04NpjRvQp/NPA==
   /minimatch/3.0.4:
     dependencies:
       brace-expansion: 1.1.11
@@ -742,6 +688,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
+  /ms/2.1.3:
+    dev: false
+    resolution:
+      integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
   /negotiator/0.6.2:
     dev: false
     engines:
@@ -889,7 +839,7 @@ packages:
       rimraf: 3.0.2
       tar-fs: 2.1.1
       unbzip2-stream: 1.4.3
-      ws: 7.4.0
+      ws: 7.4.1
     dev: false
     engines:
       node: '>=10.18.1'
@@ -1029,8 +979,8 @@ packages:
   /socket.io/3.0.4:
     dependencies:
       '@types/cookie': 0.4.0
-      '@types/cors': 2.8.8
-      '@types/node': 14.14.10
+      '@types/cors': 2.8.9
+      '@types/node': 14.14.16
       accepts: 1.3.7
       base64id: 2.0.0
       debug: 4.1.1
@@ -1141,15 +1091,15 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
-  /whatsapp-web.js/1.11.1:
+  /whatsapp-web.js/1.11.2:
     dependencies:
       '@pedroslopez/moduleraid': 4.1.0
       jsqr: 1.3.1
-      mime: 2.4.6
+      mime: 2.4.7
       puppeteer: 5.5.0
     dev: false
     resolution:
-      integrity: sha512-tlRpZBLtBIqVvf9y6dCq3A7rbLu2ttc+D55JwCoNvPniiiZyFLVV4LUAA40g0hEpapkwFbiYdHv5eAV2Gubw3g==
+      integrity: sha512-Md9BEIocLpZTbSLi3rnliVtY85mj3KTt8OcfAphHHicv3v46xhWOUA2wbdSeUYJ95fnwu5MtUbobtQfKVmVcmg==
   /which-module/2.0.0:
     dev: false
     resolution:
@@ -1168,15 +1118,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
-  /ws/7.4.0:
-    dev: false
-    engines:
-      node: '>=8.3.0'
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    resolution:
-      integrity: sha512-kyFwXuV/5ymf+IXhS6f0+eAFvydbaBW3zjpT6hUdAh/hbVjTIB5EHBGi0bPoCLSK2wcuz3BrEkB9LrYv1Nm4NQ==
   /ws/7.4.1:
     dev: false
     engines:
@@ -1223,9 +1164,10 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
-  axios: ^0.21.0
+  axios: ^0.21.1
+  body-parser: ^1.19.0
   chrome-launcher: ^0.13.4
   express: ^4.17.1
   qrcode: ^1.4.4
   socket.io: ^3.0.4
-  whatsapp-web.js: ^1.11.0
+  whatsapp-web.js: ^1.11.2
