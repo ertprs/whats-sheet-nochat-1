@@ -3,20 +3,20 @@ const { Client, MessageMedia } = require("whatsapp-web.js");
 const express = require("express");
 const app = express();
 app.use(function(req, res, next) {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        res.header("Access-Control-Allow-Headers", "Content-Type");
-        res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
-        next();
-    });
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+  next();
+});
 const axios = require("axios");
 const http = require("http").createServer(app);
 const url = require("url");
-const io = require("socket.io")(http, {log:false, origins:'*:*'});
+const io = require("socket.io")(http, { log: false, origins: "*:*" });
 const bodyParser = require("body-parser");
 const SESSION_FILE_PATH = "./session.json";
 const path = require("path");
-const qrcode = require('qrcode');
+const qrcode = require("qrcode");
 const events = (require("events").EventEmitter.defaultMaxListeners = 1000);
 let sessionCfg;
 if (fs.existsSync(SESSION_FILE_PATH)) {
@@ -65,10 +65,9 @@ client.on("qr", qr => {
   console.log("QR RECEIVED", qr);
   qrCode = qr;
   client.pupPage.screenshot({ path: __dirname + "/public/qr.png" });
-      qrcode.toDataURL(qr, (err, url) => {
-      io.emit('qr', url);
-    });
-  
+  qrcode.toDataURL(qr, (err, url) => {
+    io.emit("qr", url);
+  });
 });
 
 client.on("authenticated", session => {
