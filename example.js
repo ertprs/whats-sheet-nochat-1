@@ -34,7 +34,7 @@ const client = new Client({
       "--disable-accelerated-2d-canvas",
       "--no-first-run",
       "--no-zygote",
-      "--single-process", // <- this one doesn't works in Windows
+      "--single-process",
       "--disable-gpu"
     ]
   },
@@ -100,11 +100,6 @@ client.on("disconnected", async reason => {
 client.on("change_state", async reason => {
   console.log(reason);
   io.emit("change_state", reason);
-
-  if (reason === "UNPAIRED") {
-    client.destroy();
-    client.initialize();
-  }
 });
 
 client.on("ready", () => {
@@ -293,10 +288,11 @@ app.get("/status", async function(req, res) {
     const statuswa = await client
       .getState()
       .then(response => {
-        res.status(200).json({
-          status: true,
-          response: response
-        });
+        console.log(response);
+          res.status(200).json({
+            status: true,
+            response: response
+          });
       })
       .catch(err => {
         res.status(500).json({
